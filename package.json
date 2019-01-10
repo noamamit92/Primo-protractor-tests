@@ -1,0 +1,14 @@
+{
+  "name": "primo-protractor-tests",
+  "version": "1.0.0",
+  "dependencies": {
+    "jasmine": "^3.3.1",
+    "protractor": "^5.4.2",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.3.5",
+    "@types/jasminewd2": "^2.0.6",
+    "ts-node": "^7.0.1"
+  }
+}

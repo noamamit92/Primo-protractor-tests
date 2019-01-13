@@ -1,9 +1,9 @@
 [{
   "baseUrl": "https://primo-demo.hosted.exlibrisgroup.com",
   "vid": "NORTH",
-  "isVe": false
+  "isVe": "false"
 }, {
-  "baseUrl": "https://primo-demo.hosted.exlibrisgroup.com",
-  "vid": "NORTH",
-  "isVe": false
+  "baseUrl": "https://sandbox01-na.alma.exlibrisgroup.com",
+  "vid": "01COLSCHL_INST:MINES",
+  "isVe": "true"
 }]

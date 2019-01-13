@@ -13,9 +13,9 @@ export class Browser {
     }
 
     public static get(urlAction: string, urlParams: string): promise.Promise<any> {
-        let url = this.getBrowser().get( this.getBaseUrl() + this.getBaseHref() + urlAction + '?' + 'vid=' + this.getVid() + '&' + urlParams);
+        let url = this.getBaseUrl() + this.getBaseHref() + urlAction + '?' + 'vid=' + this.getVid() + '&' + urlParams;
         console.log(url);
-        return url;
+        return this.getBrowser().get(url);
     }
 
     private static getBaseUrl(): string {

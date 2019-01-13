@@ -15,5 +15,6 @@ export const config: Config = {
             args: ['--no-sandbox']
         }
     },
-    noGlobals: true
+    noGlobals: true,
+    allScriptsTimeout: 120000
 };

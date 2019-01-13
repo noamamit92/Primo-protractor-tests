@@ -7,7 +7,7 @@ export const config: Config = {
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
-            args: ['--no-sandbox', '--headless']
+            args: ['--no-sandbox']
         }
     },
     noGlobals: true

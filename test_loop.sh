@@ -1,8 +1,8 @@
 #!/bin/sh
 cat params.json
-for param in $(jq '.[]' params.json); do
-    baseUrl=$(jq '.baseUrl' <<< "$param")
-    vid=$(jq '.vid' <<< "$param")
-    isVe=$(jq '.isVe' <<< "$param")
+for param in $(jq -c '.[]' params.json); do
+    baseUrl=$(jq -r '.baseUrl' <<< "$param")
+    vid=$(jq -r '.vid' <<< "$param")
+    isVe=$(jq -r '.isVe' <<< "$param")
     protractor tmp/protractor.conf.js --params.baseUrl="$baseUrl" --params.vid="$vid" --params.isVe="$isVe"
 done

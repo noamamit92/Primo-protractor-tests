@@ -1,5 +1,5 @@
 #!/bin/sh
-for param in $(jq '.[]' params.json); do
+for param in $(jq '.[]' -f params.json); do
     baseUrl=$(jq -r '.baseUrl' <<< '$param')
     vid=$(jq -r '.vid' <<< '$param')
     isVe=$(jq -r '.isVe' <<< '$param')

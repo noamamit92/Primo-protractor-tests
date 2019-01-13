@@ -5,7 +5,10 @@ export const config: Config = {
     specs: ['tests/*.spec.js'],
     framework: "jasmine",
     capabilities: {
-        browserName: 'chrome'
+        browserName: 'chrome',
+        chromeOptions: {
+            args: ['--no-sandbox', '--headless']
+        }
     },
     noGlobals: true
 };

@@ -2,4 +2,8 @@
   "baseUrl": "https://primo-demo.hosted.exlibrisgroup.com",
   "vid": "NORTH",
   "isVe": false
+}, {
+  "baseUrl": "https://primo-demo.hosted.exlibrisgroup.com",
+  "vid": "NORTH",
+  "isVe": false
 }]

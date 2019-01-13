@@ -1,7 +1,7 @@
 {
   "name": "primo-protractor-tests",
   "scripts": {
-    "test": "protractor tmp/protractor.conf.js"
+    "test": "sh test_loop.sh"
   },
   "version": "1.0.0",
   "dependencies": {

@@ -1,9 +1,9 @@
-import {Config} from "protractor";
+import {browser, Config} from "protractor";
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
 var reporter = new HtmlScreenshotReporter({
     dest: 'target/screenshots',
-    filename: 'report.html'
+    showQuickLinks: true
 });
 
 export const config: Config = {
@@ -24,7 +24,7 @@ export const config: Config = {
     noGlobals: false,
     allScriptsTimeout: 120000,
     beforeLaunch: function() {
-        return new Promise(function(resolve){
+        return new Promise((resolve) => {
             reporter.beforeLaunch(resolve);
         });
     },
@@ -37,9 +37,13 @@ export const config: Config = {
     },
 
     // Close the report after all tests finish
-    afterLaunch: function(exitCode) {
-        return new Promise(function(resolve){
+    afterLaunch: (exitCode) => {
+        return new Promise<any>((resolve) => {
             reporter.afterLaunch(resolve.bind(this, exitCode));
+        }).then((resolve) => {
+            browser.quit().then(() => {
+                resolve.bind(this, exitCode);
+            });
         });
     },
     suites: {

@@ -34,7 +34,9 @@ export class Browser {
         return this.getBrowser().waitForAngular();
     }
 
-    public static close(): promise.Promise<void> {
-        return this.getBrowser().close();
+    public static close(): void {
+        this.getBrowser().close().then(() => {
+            this.browser = undefined;
+        });
     }
 }

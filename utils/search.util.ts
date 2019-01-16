@@ -6,8 +6,10 @@ export class SearchUtil{
     public static readonly brief_result_container_xpath: string = '//prm-brief-result-container';
 
     public static search(term: string) {
-        element(by.css(this.search_query_input_selector)).sendKeys(term);
-        element(by.css(this.search_button_selector)).sendKeys(Key.ENTER);
+        var searchBar = element(by.css(this.search_query_input_selector));
+        searchBar.sendKeys(term);
+        var searchButton = element(by.css(this.search_button_selector));
+        searchButton.sendKeys(Key.ENTER);
     }
 
     public static assertNumberOfResultsAppeared(expectedNumberOfResults: number): promise.Promise<void> {

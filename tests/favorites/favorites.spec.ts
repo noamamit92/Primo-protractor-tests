@@ -5,20 +5,16 @@ import {FavoritesUtil} from "../../utils/favorites.util";
 
 describe('check favorites', function () {
     it('should add a record to favorites', function () {
-        Browser.get('/search', '').then(() => {
-            SearchUtil.search('nothing');
+        console.log('*** Starting favorites test ***');
+        Browser.get('/search', '');
+        SearchUtil.search('nothing');
+        Browser.waitForAngular();
+        let favoritesButtons = element.all(by.css(FavoritesUtil.pin_selector));
+        expect(favoritesButtons.count()).toBe(10);
 
-            Browser.waitForAngular().then(() => {
-                let favoritesButtons = element.all(by.css(FavoritesUtil.pin_selector));
-                expect(favoritesButtons.count()).toBe(10);
-                favoritesButtons.first().click();
-
-                Browser.waitForAngular().then(() => {
-                    FavoritesUtil.goToFavorites().then(() => {
-                        return SearchUtil.assertNumberOfResultsAppeared(1);
-                    });
-                });
-            });
-        });
+        favoritesButtons.first().click();
+        Browser.waitForAngular();
+        FavoritesUtil.goToFavorites();
+        SearchUtil.assertNumberOfResultsAppeared(1);
     });
 });

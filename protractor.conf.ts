@@ -1,9 +1,12 @@
-import {browser, Config} from "protractor";
+import {Config} from "protractor";
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
 var reporter = new HtmlScreenshotReporter({
     dest: 'target/screenshots',
-    showQuickLinks: true
+    showQuickLinks: true,
+    userCss: '../../report.css',
+    captureOnlyFailedSpecs: true,
+    reportOnlyFailedSpecs: false
 });
 
 export const config: Config = {
@@ -15,22 +18,28 @@ export const config: Config = {
     },
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
-    capabilities: {
+    multiCapabilities: [{
         browserName: 'chrome',
         chromeOptions: {
             args: ['--no-sandbox']
-        }
-    },
+        },
+        shardTestFiles: true,
+        maxInstances: 10
+    }, {
+        browserName: 'firefox',
+        shardTestFiles: true,
+        maxInstances: 10
+    }],
     noGlobals: false,
     allScriptsTimeout: 120000,
-    beforeLaunch: function() {
+    beforeLaunch: () => {
         return new Promise((resolve) => {
             reporter.beforeLaunch(resolve);
         });
     },
 
     // Assign the test reporter to each running instance
-    onPrepare: function() {
+    onPrepare: () => {
         let globals = require('protractor');
         let browser = globals.browser;
         jasmine.getEnv().addReporter(reporter);
@@ -40,10 +49,6 @@ export const config: Config = {
     afterLaunch: (exitCode) => {
         return new Promise<any>((resolve) => {
             reporter.afterLaunch(resolve.bind(this, exitCode));
-        }).then((resolve) => {
-            browser.quit().then(() => {
-                resolve.bind(this, exitCode);
-            });
         });
     },
     suites: {

@@ -1,7 +1,10 @@
 sudo: required
 dist: trusty
+env:
+  - MOZ_HEADLESS=1
 addons:
   chrome: stable
+  firefox: latest
   apt:
     packages:
     - chromium-chromedriver

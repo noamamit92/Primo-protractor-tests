@@ -1,10 +1,8 @@
 sudo: required
 dist: trusty
-env:
-  - MOZ_HEADLESS=1
 addons:
   chrome: stable
-  firefox: latest
+  firefox: "56.0"
   apt:
     packages:
     - chromium-chromedriver
@@ -14,16 +12,19 @@ node_js:
 cache:
   directories:
   - node_modules
+before_install:
+ - sudo apt-get install xvfb
+ - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.0/geckodriver-v0.19.0-linux64.tar.gz
+install:
+- npm install
+- npm install -g typescript
+- npm install -g protractor
+- webdriver-manager update
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
   - webdriver-manager --detach start
-install:
-  - npm install
-  - npm install -g typescript
-  - npm install -g protractor
-  - webdriver-manager update
 script:
   - tsc
   - npm test

@@ -18,6 +18,7 @@ export const config: Config = {
     },
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
+    logLevel: "WARN",
     multiCapabilities: [{
         browserName: 'chrome',
         chromeOptions: {

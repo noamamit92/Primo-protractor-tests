@@ -21,7 +21,7 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
-  - webdriver-manager --detach start
+  - webdriver-manager --detach --quiet start
 script:
   - tsc
   - npm test

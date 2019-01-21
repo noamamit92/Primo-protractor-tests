@@ -18,7 +18,6 @@ export const config: Config = {
     },
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
-    logLevel: "WARN",
     multiCapabilities: [{
         browserName: 'chrome',
         chromeOptions: {
@@ -28,6 +27,9 @@ export const config: Config = {
         maxInstances: 10
     }, {
         browserName: 'firefox',
+        'moz:firefoxOptions': {
+            args: ['--safe-mode']
+        },
         shardTestFiles: true,
         maxInstances: 10
     }],

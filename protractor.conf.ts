@@ -1,4 +1,6 @@
 import {Config} from "protractor";
+import {getChromeCapabilities, getFirefoxCapabilities} from "./capabilities";
+import {promise} from "protractor"
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
 var reporter = new HtmlScreenshotReporter({
@@ -18,21 +20,12 @@ export const config: Config = {
     },
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
-    multiCapabilities: [{
-        browserName: 'chrome',
-        chromeOptions: {
-            args: ['--no-sandbox']
-        },
-        shardTestFiles: true,
-        maxInstances: 10
-    }, {
-        browserName: 'firefox',
-        'moz:firefoxOptions': {
-            args: ['--safe-mode']
-        },
-        shardTestFiles: true,
-        maxInstances: 10
-    }],
+    getMultiCapabilities: () => {
+        let chromeCapabilities = getChromeCapabilities();
+        let firefoxCapabilities = getFirefoxCapabilities();
+
+        return promise.all([chromeCapabilities, firefoxCapabilities]);
+    },
     noGlobals: false,
     allScriptsTimeout: 120000,
     beforeLaunch: () => {

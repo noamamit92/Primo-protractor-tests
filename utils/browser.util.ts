@@ -1,4 +1,4 @@
-import {browser, promise, ProtractorBrowser} from "protractor";
+import {browser, Builder, promise, ProtractorBrowser} from "protractor";
 import {Profile, Options} from "selenium-webdriver/firefox";
 
 export class Browser {
@@ -7,26 +7,6 @@ export class Browser {
     public static getBrowser(): ProtractorBrowser {
         if (this.browser === undefined) {
             this.browser = browser;
-
-            this.browser.getCapabilities().then((caps) => {
-                switch (caps.get('browserName')) {
-                    case 'firefox':
-                        let profile: Profile = new Profile();
-                        profile.setAcceptUntrustedCerts(true);
-                        profile.setAssumeUntrustedCertIssuer(false);
-                        profile.setPreference("browser.tabs.remote.autostart", false);
-                        profile.setPreference("browser.tabs.remote.autostart.1", false);
-                        profile.setPreference("browser.tabs.remote.autostart.2", false);
-                        profile.addExtension('screenshots@mozilla.org');
-
-                        let options: Options = new Options();
-                        options.setProfile(profile);
-
-                        caps.merge(options.toCapabilities());
-
-                        break;
-                }
-            });
 
             this.browser.driver.manage().window().maximize();
         }

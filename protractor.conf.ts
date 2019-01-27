@@ -29,6 +29,7 @@ export const config: Config = {
     },
     noGlobals: false,
     allScriptsTimeout: 120000,
+    getPageTimeout: 120000,
     beforeLaunch: () => {
         return new Promise((resolve) => {
             reporter.beforeLaunch(resolve);

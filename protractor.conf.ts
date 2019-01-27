@@ -20,6 +20,7 @@ export const config: Config = {
     },
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
+    resultJsonOutputFile: 'target/results.json',
     getMultiCapabilities: () => {
         let chromeCapabilities = getChromeCapabilities();
         let firefoxCapabilities = getFirefoxCapabilities();

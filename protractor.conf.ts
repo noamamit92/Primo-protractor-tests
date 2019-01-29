@@ -21,6 +21,7 @@ export const config: Config = {
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
     resultJsonOutputFile: 'target/results.json',
+    directConnect: true,
     getMultiCapabilities: () => {
         let chromeCapabilities = getChromeCapabilities();
         let firefoxCapabilities = getFirefoxCapabilities();

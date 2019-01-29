@@ -12,7 +12,6 @@ var reporter = new HtmlScreenshotReporter({
 });
 
 var directConnect = process.platform !== 'win32' && !(process.env.HOSTTYPE && process.env.HOSTTYPE === 'x86_64');
-console.log(directConnect);
 
 export const config: Config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',

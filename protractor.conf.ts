@@ -44,12 +44,12 @@ export const config: Config = {
         });
     },
 
-    // Assign the test reporter to each running instance
+    // Assign the test reporter to each running instance, runs for every capabillity
     onPrepare: () => {
         let globals = require('protractor');
         let browser = globals.browser;
         jasmine.getEnv().addReporter(reporter);
-        AppConfigUtil.setEnviormentVars();
+        AppConfigUtil.setScopeTypes();
     },
 
     // Close the report after all tests finish

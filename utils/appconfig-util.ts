@@ -3,8 +3,10 @@ import data from '../gotcha.json'
 
 
 export default class AppConfigUtil {
-
-    public static async setEnviormentVars() {       
+    /**
+     * filters and assigns scope type to each scope in json
+     */
+    public static async setScopeTypes() {       
         let scopes = data.conf.scopes;
         for (let scope of scopes) {
             if (this.isScopeLocal(scope.locations)) {
@@ -21,7 +23,10 @@ export default class AppConfigUtil {
         }    
     }
 
-
+    /**
+     * checks if scope is of type local
+     * @param locations locations property of scope
+     */
     private static isScopeLocal(locations: string) : boolean {
         if (this.isPrimoVe) {
             return (locations=='Local');
@@ -31,18 +36,34 @@ export default class AppConfigUtil {
         }
     }
 
+    /**
+     * checks if scope is of type PC
+     * @param locations locations property of scope
+     */
     private static isScopePC(locations: string) : boolean {
         return (locations == 'primo_central_multiple_fe');
     }
 
+    /**
+     * checks if scope is of type Ebsco
+     * @param locations locations property of scope
+     */
     private static isScopeEbsco(locations: string) : boolean {
         return (locations=='EbscoLocal');
     }
 
+    /**
+     * checks if scope is of type Worldcat
+     * @param locations locations property of scope
+     */
     private static isScopeWorldCat(locations: string) : boolean {
         return (locations=='WorldCatLocal');
     }
 
+    /**
+     * checks if scope is of type blended
+     * @param locations locations property of scope
+     */
     private static isScopeBlended(locations: string) : boolean {
         let containsEbsco = locations.includes('EbscoLocal');
         let containsWorldCat = locations.includes('WorldCatLocal');
@@ -57,6 +78,9 @@ export default class AppConfigUtil {
          return (containsLocal && (containsPC || containsEbsco || containsWorldCat));
     }
 
+    /**
+     * return true if primoVE, false otherwise
+     */
     static get isPrimoVe() : boolean {
         return Browser.getBrowser().params.isVe == 'true';
     }

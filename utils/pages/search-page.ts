@@ -15,10 +15,11 @@ export default class SearchPage{
     private static searchTerms = data.tests.search;
     public static resultsCount = element(by.css('.results-count'));
     
-
     /**
-     * inserts a term to the search bar and performs a simple search
-     * @param term - a term to do search with.
+     * performs search with deep link
+     * @param term term to be searched
+     * @param tab tab property of scope from gotcha.json
+     * @param scope scope property of scope from gotcha.json
      */
     public static search(term: string, tab: string, scope: string) {
         let urlParams = 'query=any,contains,' + encodeURI(term) + '&tab=' + tab + '&search_scope=' + scope;
@@ -26,6 +27,9 @@ export default class SearchPage{
         Browser.waitForAngular();        
     }
 
+    /**
+     * gets number of results from search brief page
+     */
     public static resultCountValue(): promise.Promise<Number> {
         return new Promise((resolve, reject) => {
             this.resultsCount.getText().then((value) => {
@@ -39,18 +43,31 @@ export default class SearchPage{
         });
     }
 
+    /**
+     * return the json objects of scopes from gotcha.json
+     */
     static get scopes(): any {
         return this.scopesObjects;
     }
 
+    /**
+     * returns the term json object from gotcha.json with the given key
+     * @param key name of term type
+     */
     public static termsObject(key:string): any {
         return this.searchTerms[key];
     }
 
+    /**
+     * returns the terms objects from gotcha.json
+     */
     static get terms() : any {
         return this.searchTerms;
     }
 
+    /**
+     * returns the value of the current selected tab in search bat
+     */
     static get selectedTabValue(): ElementFinder {
         return this.selectedTab.filter((element)=> {
             return element.getAttribute('aria-selected').then((value)=> {
@@ -59,6 +76,9 @@ export default class SearchPage{
         }).first();
     }
 
+    /**
+     * returns the value of the current selected scope in search bat
+     */
     static get selectedScopeValue(): ElementFinder {
         return this.selectedScope.filter((element)=> {
             return element.getAttribute('aria-selected').then((value)=> {

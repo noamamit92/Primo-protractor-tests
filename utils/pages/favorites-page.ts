@@ -1,4 +1,4 @@
-import {by, element, promise} from "protractor";
+import {by, element} from "protractor";
 import Browser from "../browser-util";
 
 

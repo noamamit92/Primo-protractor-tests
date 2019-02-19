@@ -1,7 +1,7 @@
 import {browser, Builder, promise, ProtractorBrowser} from "protractor";
 import {Profile, Options} from "selenium-webdriver/firefox";
 
-export class Browser {
+export default class Browser {
     private static browser: ProtractorBrowser;
 
     public static getBrowser(): ProtractorBrowser {

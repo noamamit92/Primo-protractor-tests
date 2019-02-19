@@ -1,6 +1,7 @@
 import {Config} from "protractor";
 import {getChromeCapabilities, getFirefoxCapabilities} from "./capabilities";
 import {promise} from "protractor"
+import AppConfigUtil from "./utils/appconfig-util";
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
 var reporter = new HtmlScreenshotReporter({
@@ -33,6 +34,10 @@ export const config: Config = {
     noGlobals: false,
     allScriptsTimeout: 120000,
     getPageTimeout: 120000,
+    jasmineNodeOpts: {
+        stopSpecOnExpectationFailure: false
+    },
+    //runs once before the tests
     beforeLaunch: () => {
         return new Promise((resolve) => {
             reporter.beforeLaunch(resolve);
@@ -44,6 +49,7 @@ export const config: Config = {
         let globals = require('protractor');
         let browser = globals.browser;
         jasmine.getEnv().addReporter(reporter);
+        AppConfigUtil.setEnviormentVars();
     },
 
     // Close the report after all tests finish

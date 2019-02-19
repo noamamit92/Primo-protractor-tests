@@ -1,0 +1,155 @@
+{
+	"conf": {
+		"scopes": [
+			{
+				"types": "adaptor,local",
+				"tab": "Everything",
+				"scope-id": "MyInst_and_CI",
+				"tab-id-for-scope-matching": "Everything",
+				"locations": "primo_central_multiple_fe,Local"
+			},
+			{
+				"types": "local",
+				"tab": "LibraryCatalog",
+				"scope-id": "MyInstitution",
+				"tab-id-for-scope-matching": "LibraryCatalog",
+				"locations": "Local"
+			},
+			{
+				"types": "adaptor",
+				"tab": "CentralIndex",
+				"scope-id": "CentralIndex",
+				"tab-id-for-scope-matching": "CentralIndex",
+				"locations": "primo_central_multiple_fe"
+			}
+		]
+	},
+	"tests": {
+		"didYouMean": {
+			"termsToCheck": {
+				"searchTerms": [
+					"israe",
+					"creak",
+					"maigc",
+					"childrn",
+					"histoiry",
+					"unitedstates"
+				],
+				"didYouMeanTerms": [
+					"israel",
+					"creek",
+					"magic",
+					"children",
+					"history",
+					"united states"
+				]
+			}
+		},
+		"search": {
+			"basic": [
+				{
+					"term": "art history",
+					"expected": 1551333
+				},
+				{
+					"term": "art history",
+					"expected": 4250
+				},
+				{
+					"term": "art history",
+					"expected": 1547083
+				}
+			],
+			"europeanSpecialCaracter": [
+				{
+					"term": "Système éducatif",
+					"expected": 3463
+				},
+				{
+					"term": "Système éducatif",
+					"expected": 13
+				},
+				{
+					"term": "Système éducatif",
+					"expected": 3450
+				}
+			],
+			"citation": [
+				{
+					"term": "Orwell, George. 1984 . San Diego, Calif: Harcourt Brace Jovanovich, 1984. Print.",
+					"expected": 8
+				},
+				{
+					"term": "Keating, Susan Katz, and Forestier, Isabelle. Isadora Duncan: American Dancer. Mason Crest Publishers, 2002.",
+					"expected": 1
+				},
+				{
+					"term": "Orwell, George. 1984 . San Diego, Calif: Harcourt Brace Jovanovich, 1984. Print.",
+					"expected": 8
+				}
+			],
+			"cjk": [
+				{
+					"term": "日本",
+					"expected": 349326
+				},
+				{
+					"term": "日本",
+					"expected": 905
+				},
+				{
+					"term": "日本",
+					"expected": 348421
+				}
+			],
+			"hebrew": [
+				{
+					"term": "ירושלים",
+					"expected": 37
+				},
+				{
+					"term": "ירושלים",
+					"expected": 22
+				},
+				{
+					"term": "ירושלים",
+					"expected": 15
+				}
+			],
+			"noResults": [
+				{
+					"term": "noResults123",
+					"expected": 0
+				},
+				{
+					"term": "noResults123",
+					"expected": 0
+				},
+				{
+					"term": "noResults123",
+					"expected": 0
+				}
+			],
+			"knowenItem": [
+				{
+					"term": "The Catcher in the Rye",
+					"expected": 4720
+				},
+				{
+					"term": "The Catcher in the Rye",
+					"expected": 3
+				},
+				{
+					"term": "The Catcher in the Rye",
+					"expected": 4717
+				}
+			]
+		},
+		"SyndeticsUnbound": {
+			"searchTerms": [
+				"primo_alma2110624050001021",
+				"primo_alma215453270001021"
+			]
+		}
+	}
+}

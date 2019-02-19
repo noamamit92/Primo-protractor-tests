@@ -3,6 +3,8 @@
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true ,
     "inlineSourceMap": true,
     "declaration": false,
     "noImplicitAny": false,

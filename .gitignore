@@ -6,4 +6,4 @@ target
 .project
 params
 params.zip
-/target/results.studio.json
+gotcha.json

@@ -1,7 +1,6 @@
 import {Config} from "protractor";
 import {getChromeCapabilities, getFirefoxCapabilities} from "./capabilities";
 import {promise} from "protractor"
-import AppConfigUtil from "./utils/appconfig-util";
 import {PrimoStudioReporter} from "./primoStudioReporter";
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
@@ -56,7 +55,6 @@ export const config: Config = {
         let browser = globals.browser;
         jasmine.getEnv().addReporter(htmlReporter);
         jasmine.getEnv().addReporter(primoStudioReporter);
-        AppConfigUtil.setScopeTypes();
     },
 
     // Close the report after all tests finish

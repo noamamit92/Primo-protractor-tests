@@ -1,15 +1,19 @@
 import {Config} from "protractor";
 import {getChromeCapabilities, getFirefoxCapabilities} from "./capabilities";
 import {promise} from "protractor"
+import AppConfigUtil from "./utils/appconfig-util";
+import {PrimoStudioReporter} from "./primoStudioReporter";
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
-var reporter = new HtmlScreenshotReporter({
+var htmlReporter = new HtmlScreenshotReporter({
     dest: 'target/screenshots',
     showQuickLinks: true,
     userCss: '../../report.css',
     captureOnlyFailedSpecs: true,
     reportOnlyFailedSpecs: false
 });
+
+var primoStudioReporter = new PrimoStudioReporter({});
 
 var directConnect = process.platform !== 'win32' && !(process.env.HOSTTYPE && process.env.HOSTTYPE === 'x86_64');
 
@@ -28,7 +32,7 @@ export const config: Config = {
         let chromeCapabilities = getChromeCapabilities();
         let firefoxCapabilities = getFirefoxCapabilities();
 
-        return promise.all([chromeCapabilities/*, firefoxCapabilities*/]);
+        return promise.all([chromeCapabilities, firefoxCapabilities]);
     },
     noGlobals: false,
     allScriptsTimeout: 120000,
@@ -40,7 +44,9 @@ export const config: Config = {
     //runs once before the tests
     beforeLaunch: () => {
         return new Promise((resolve) => {
-            reporter.beforeLaunch(resolve);
+            primoStudioReporter.beforeLaunch(() => {
+                htmlReporter.beforeLaunch(resolve);
+            });
         });
     },
 
@@ -48,13 +54,17 @@ export const config: Config = {
     onPrepare: () => {
         let globals = require('protractor');
         let browser = globals.browser;
-        jasmine.getEnv().addReporter(reporter);
+        jasmine.getEnv().addReporter(htmlReporter);
+        jasmine.getEnv().addReporter(primoStudioReporter);
+        AppConfigUtil.setScopeTypes();
     },
 
     // Close the report after all tests finish
     afterLaunch: (exitCode) => {
         return new Promise<any>((resolve) => {
-            reporter.afterLaunch(resolve.bind(this, exitCode));
+            primoStudioReporter.afterLaunch(() => {
+                htmlReporter.afterLaunch(resolve.bind(this, exitCode));
+            });
         });
     },
     suites: {

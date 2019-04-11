@@ -4,3 +4,6 @@ tmp
 /package-lock.json
 target
 .project
+params
+params.zip
+/target/results.studio.json

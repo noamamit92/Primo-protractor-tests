@@ -20,7 +20,7 @@ export const config: Config = {
         vid: 'NORTH',
         isVe: false
     },
-    specs: ['tests/*/search.spec.js'],
+    specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
     resultJsonOutputFile: 'target/results.json',
     directConnect: directConnect,

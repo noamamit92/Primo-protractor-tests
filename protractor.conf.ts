@@ -28,7 +28,7 @@ export const config: Config = {
         let chromeCapabilities = getChromeCapabilities();
         let firefoxCapabilities = getFirefoxCapabilities();
 
-        return promise.all([chromeCapabilities, firefoxCapabilities]);
+        return promise.all([chromeCapabilities]);
     },
     noGlobals: false,
     allScriptsTimeout: 120000,

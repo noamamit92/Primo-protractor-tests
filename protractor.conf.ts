@@ -14,8 +14,6 @@ var htmlReporter = new HtmlScreenshotReporter({
 
 var primoStudioReporter = new PrimoStudioReporter({});
 
-var directConnect = process.platform !== 'win32' && !(process.env.HOSTTYPE && process.env.HOSTTYPE === 'x86_64');
-
 export const config: Config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     params: {
@@ -26,7 +24,6 @@ export const config: Config = {
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
     resultJsonOutputFile: 'target/results.json',
-    directConnect: directConnect,
     getMultiCapabilities: () => {
         let chromeCapabilities = getChromeCapabilities();
         let firefoxCapabilities = getFirefoxCapabilities();

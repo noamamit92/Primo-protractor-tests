@@ -1,17 +1,16 @@
 import SearchPage from "../../utils/pages/search-page";
 import Browser from "../../utils/browser-util";
-import FavoritesUtil from "../../utils/pages/favorites-page";
+import FavoritesPage from "../../utils/pages/favorites-page";
 
 describe('check favorites', function () {
     it('should add a record to favorites', function () {
         console.log('*** Starting favorites test ***');
-        Browser.get('/search', '');
-        Browser.waitForAngular();
-        expect(FavoritesUtil.favoritesButtons.count()).toBe(10);
+        SearchPage.search("favorites", SearchPage.scopes[0].tab, SearchPage.scopes[0]['scope-id'])
+        expect(FavoritesPage.favoritesButtons.count()).toBe(10);
 
-        FavoritesUtil.favoritesButtons.first().click();
+        FavoritesPage.favoritesButtons.first().click();
         Browser.waitForAngular();
-        FavoritesUtil.goToFavorites();
+        FavoritesPage.goToFavorites();
         expect(SearchPage.searchResults.count()).toEqual(1);
     });
 });

@@ -2,12 +2,13 @@
   "name": "primo-protractor-tests",
   "scripts": {
     "test": "bash test_loop.sh",
-    "local_test": "tsc&&protractor tmp/protractor.conf.js"
+    "local_test": "cpy gotcha.tmpl.json ./ --rename=gotcha.json&&tsc&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js"
   },
   "version": "1.0.0",
   "dependencies": {
     "jasmine": "^3.3.1",
     "protractor": "^5.4.2",
+    "protractor-http-client": "^1.0.4",
     "typescript": "^3.2.2"
   },
   "devDependencies": {
@@ -15,6 +16,7 @@
     "@types/jasminewd2": "^2.0.6",
     "@types/node": "^10.12.18",
     "@types/selenium-webdriver": "^3.0.14",
+    "@types/request": "2.47.0",
     "protractor-jasmine2-screenshot-reporter": "^0.5.0",
     "ts-node": "^7.0.1"
   }

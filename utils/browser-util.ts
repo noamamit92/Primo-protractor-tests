@@ -20,6 +20,10 @@ export default class Browser {
         return this.getBrowser().get(url);
     }
 
+    public static goto(url: string): promise.Promise<any> {
+        return this.getBrowser().get(url);
+    }
+
     private static getBaseUrl(): string {
         return this.getBrowser().params.baseUrl;
     }

@@ -1,7 +1,6 @@
 import {Config} from "protractor";
 import {getChromeCapabilities, getFirefoxCapabilities} from "./capabilities";
 import {promise} from "protractor"
-import AppConfigUtil from "./utils/appconfig-util";
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
 var reporter = new HtmlScreenshotReporter({
@@ -21,7 +20,7 @@ export const config: Config = {
         vid: 'NORTH',
         isVe: false
     },
-    specs: ['tests/*/*.spec.js'],
+    specs: ['tests/*/search.spec.js'],
     framework: "jasmine",
     resultJsonOutputFile: 'target/results.json',
     directConnect: directConnect,
@@ -29,13 +28,14 @@ export const config: Config = {
         let chromeCapabilities = getChromeCapabilities();
         let firefoxCapabilities = getFirefoxCapabilities();
 
-        return promise.all([chromeCapabilities, firefoxCapabilities]);
+        return promise.all([chromeCapabilities/*, firefoxCapabilities*/]);
     },
     noGlobals: false,
     allScriptsTimeout: 120000,
     getPageTimeout: 120000,
     jasmineNodeOpts: {
-        stopSpecOnExpectationFailure: false
+        stopSpecOnExpectationFailure: false,
+        defaultTimeoutInterval: 90000
     },
     //runs once before the tests
     beforeLaunch: () => {
@@ -49,7 +49,6 @@ export const config: Config = {
         let globals = require('protractor');
         let browser = globals.browser;
         jasmine.getEnv().addReporter(reporter);
-        AppConfigUtil.setScopeTypes();
     },
 
     // Close the report after all tests finish

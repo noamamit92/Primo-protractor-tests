@@ -1,18 +1,18 @@
 import SearchPage from "../../utils/pages/search-page";
 
 describe('simple search test: ', function () {
-    for(const key in SearchPage.terms) {
-        SearchPage.scopes.forEach((scope,i) => {
-            it('should search for ' + key + ' term in ' + scope.scopeType + ' scope', function () {
-                SearchPage.search(SearchPage.termsObject(key)[i].term, scope.tab, scope['scope-id']);
-                expect(SearchPage.resultCountValue()).toEqual(SearchPage.termsObject(key)[i].expected, 'number of results does not match');
+    for(const area in SearchPage.terms) {
+        SearchPage.terms[area].forEach((gotchaSearch,i) => {
+            it('should search for ' + area + ' term in ' + gotchaSearch.scopeId + ' scope' + ' url: ' +gotchaSearch.link, function () {
+                SearchPage.goto(gotchaSearch.link, gotchaSearch.queryTerm);
+                expect(SearchPage.resultCountValue()).toEqual(Number(gotchaSearch.expected), 'number of results does not match');
                 SearchPage.scopeDropDownButton.isPresent().then((result) => {
                     if (result) {
-                        expect(SearchPage.selectedScopeValue.getAttribute('value')).toEqual(scope['scope-id'], "incorrect scope is selected");
+                        expect(SearchPage.selectedScopeValue.getAttribute('value')).toEqual(gotchaSearch.scopeId, "incorrect scope is selected");
                     }
                 });
-                expect(SearchPage.selectedTabValue.getAttribute('value')).toEqual(scope.tab, "incorrect tab is selected");
-                expect(SearchPage.searchBar.getAttribute('value')).toEqual(SearchPage.termsObject(key)[i].term, "search bar does not contain correct term");
+                expect(SearchPage.selectedTabValue.getAttribute('value')).toEqual(gotchaSearch.tab, "incorrect tab is selected");
+                expect(SearchPage.searchBar.getAttribute('value')).toEqual(gotchaSearch.queryTerm, "search bar does not contain correct term");
             });
         });
     };

@@ -13,8 +13,7 @@ class GotchaUtil {
         let baseUrl = params['baseUrl'] || config.params.baseUrl;
         let vid = params['vid'] || config.params.vid;
         let isVe = params['isVe'] || config.params.isVe;
-        let secret_header = params['header'] || undefined;
-        let system = isVe ? 've' : 'primo';
+        let system = isVe === 'true' ? 've' : 'primo';
 
         fs.writeFile('gotcha.json', "{}", 'utf8', () => {
             console.log("file written to root as {}")
@@ -40,16 +39,12 @@ class GotchaUtil {
 
         };
         const http = new HttpClient(baseUrl);
-        const headers = {};
-        // headers[secret_header]='';
 
         let confRoute = systemToRestPath[system] + apiRoute.conf[system] + '/' + vid;
         console.log('baseUrl: ' + baseUrl);
-        console.log('debug:: confRoute=' + confRoute);
 
-        const confResponse: ResponsePromise = <ResponsePromise>http.get(confRoute, headers).then(
+        const confResponse: ResponsePromise = <ResponsePromise>http.get(confRoute).then(
             (confResponse) => {
-                console.log('debug:: confResponse.body=' + confResponse.body);
                 let conf = JSON.parse(confResponse.body);
                 let institutionCode = conf['primo-view']['institution']['institution-code'];
                 console.log('view institution: ' + institutionCode);
@@ -59,7 +54,7 @@ class GotchaUtil {
                     've': systemToRestPath[system] + apiRoute.jwt[system] + '/' + institutionCode + '/guestJwt?lang=en&viewId=' + vid
                 };
                 console.log('jwtPath: ' + jwtPath[system]);
-                const jwtResponse: ResponsePromise = <ResponsePromise>http.get(jwtPath[system], headers).then(
+                const jwtResponse: ResponsePromise = <ResponsePromise>http.get(jwtPath[system]).then(
                     (jwtResponse) => {
                         let jwt = jwtResponse.body;
                         console.log('jwt: ' + jwt);
@@ -85,7 +80,6 @@ class GotchaUtil {
                                 'Authorization': 'Bearer ' + jwt
                             }
                         };
-                        options.headers[secret_header]='';
                         const gotchaResponse = request(options, callback)
                     }
                 )

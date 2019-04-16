@@ -11,7 +11,11 @@ describe('simple search test: ', function () {
                         expect(SearchPage.selectedScopeValue.getAttribute('value')).toEqual(gotchaSearch.scopeId, "incorrect scope is selected");
                     }
                 });
-                expect(SearchPage.selectedTabValue.getAttribute('value')).toEqual(gotchaSearch.tab, "incorrect tab is selected");
+                SearchPage.tabDropDownButton.isPresent().then((result) => {
+                    if (result) {
+                        expect(SearchPage.selectedTabValue.getAttribute('value')).toEqual(gotchaSearch.tab, "incorrect tab is selected");
+                    }
+                });
                 expect(SearchPage.searchBar.getAttribute('value')).toEqual(gotchaSearch.queryTerm, "search bar does not contain correct term");
             });
         });

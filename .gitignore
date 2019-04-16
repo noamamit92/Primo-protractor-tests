@@ -4,3 +4,6 @@ tmp
 /package-lock.json
 target
 .project
+params
+params.zip
+gotcha.json

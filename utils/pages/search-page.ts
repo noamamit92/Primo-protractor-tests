@@ -1,5 +1,5 @@
 import {by, element ,Key, promise, $, ElementFinder} from "protractor";
-import data from '../../gotcha.json'
+import data from '../../gotcha.json';
 import Browser from "../../utils/browser-util";
 
 
@@ -25,6 +25,17 @@ export default class SearchPage{
         let urlParams = 'query=any,contains,' + encodeURI(term) + '&tab=' + tab + '&search_scope=' + scope;
         Browser.get('/search', urlParams);
         Browser.waitForAngular();        
+    }
+
+
+    /**
+     * performs search with deep link from gotcha
+     * @param url = the url from gotcha
+     */
+    public static goto(url: string, query: string) {
+        url = url.replace(query,encodeURIComponent(query));
+        Browser.goto(url);
+        Browser.waitForAngular();
     }
 
     /**

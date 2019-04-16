@@ -25,5 +25,6 @@ before_script:
   - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
   - webdriver-manager --detach --quiet start
 script:
+  - cp gotcha.tmpl.json gotcha.json
   - tsc
   - npm test

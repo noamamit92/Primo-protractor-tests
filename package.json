@@ -2,7 +2,7 @@
   "name": "primo-protractor-tests",
   "scripts": {
     "test": "bash test_loop.sh",
-    "local_test": "copy gotcha.tmpl.json ./ --rename=gotcha.json&&tsc&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js",
+    "local_test": "tsc&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js",
     "local_test_linux": "cp gotcha.tmpl.json gotcha.json&&tsc&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js"
   },
   "version": "1.0.0",

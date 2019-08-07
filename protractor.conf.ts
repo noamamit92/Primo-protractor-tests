@@ -17,9 +17,7 @@ var primoStudioReporter = new PrimoStudioReporter({});
 export const config: Config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     params: {
-        baseUrl: 'https://wrlc-gwu.primo.exlibrisgroup.com',
-        vid: '01WRLC_GWA:live',
-        isVe: 'true'
+        envArray:['https://wrlc-gwu.primo.exlibrisgroup.com']
     },
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
@@ -52,6 +50,25 @@ export const config: Config = {
         let browser = globals.browser;
         jasmine.getEnv().addReporter(htmlReporter);
         jasmine.getEnv().addReporter(primoStudioReporter);
+        var jasmineReporters = require('jasmine-reporters');
+        var junitReporter = new jasmineReporters.JUnitXmlReporter({
+
+            // setup the output path for the junit reports
+            savePath: 'target/',
+
+            // conslidate all true:
+            //   output/junitresults.xml
+            //
+            // conslidate all set to false:
+            //   output/junitresults-example1.xml
+            //   output/junitresults-example2.xml
+            consolidateAll: false
+
+        });
+        jasmine.getEnv().addReporter(junitReporter);
+
+
+
     },
 
     // Close the report after all tests finish

@@ -1,6 +1,7 @@
-import {by, element ,Key, promise, $, ElementFinder} from "protractor";
-import data from '../../gotcha.json';
+import {by, element, Key, promise, $, ElementFinder, browser} from "protractor";
+
 import Browser from "../../utils/browser-util";
+import {unescape} from "querystring";
 
 
 export default class SearchPage{
@@ -11,8 +12,8 @@ export default class SearchPage{
     public static scopeDropDownButton = element(by.model('$ctrl.scope'));
     public static selectedTab = element.all(by.repeater("tab in $ctrl.tabOptions"));
     public static selectedScope = element.all(by.repeater("scope in $ctrl.scopeOptions"));
-    private static scopesObjects = data.conf.scopes;
-    private static searchTerms = data.tests.search;
+    private static scopesObjects = JSON.parse(unescape(browser.params.gotcha)).conf.scopes;
+    private static searchTerms = JSON.parse(unescape(browser.params.gotcha)).tests.search;
     public static resultsCount = element(by.css('.results-count'));
 
     /**

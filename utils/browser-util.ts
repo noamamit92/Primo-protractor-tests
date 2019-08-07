@@ -29,6 +29,8 @@ export default class Browser {
     }
 
     private static getBaseHref(): string {
+
+        console.log('this.getBrowser().params.isVe: ' + this.getBrowser().params.isVe);
         return this.getBrowser().params.isVe === 'true' ? '/discovery' : '/primo-explore';
     }
 

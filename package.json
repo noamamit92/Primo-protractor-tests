@@ -2,12 +2,13 @@
   "name": "primo-protractor-tests",
   "scripts": {
     "test": "bash test_loop.sh",
-    "local_test": "cpy gotcha.tmpl.json ./ --rename=gotcha.json&&tsc&&SET UV_THREADPOOL_SIZE=128&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js"
+    "local_test": "tsc&&SET UV_THREADPOOL_SIZE=256&&node tmp/gotcha-util.js"
   },
   "version": "1.0.0",
   "dependencies": {
     "cpy": "^7.3.0",
     "jasmine": "^3.3.1",
+    "jasmine-reporters": "^2.3.2",
     "protractor": "^5.4.2",
     "protractor-http-client": "^1.0.4",
     "typescript": "^3.2.2",

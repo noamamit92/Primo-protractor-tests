@@ -1,27 +1,20 @@
 import {ResponsePromise} from "protractor-http-client/dist/promisewrappers";
 import {HttpClient} from "protractor-http-client/dist/http-client";
 import fs from 'fs';
+import * as Launcher from 'protractor/built/launcher'
 import minimist from 'minimist';
 import {config} from "./protractor.conf";
 
 const request = require('request');
 
-
 class GotchaUtil {
 
     public static init() {
-        console.log( "*********************************************" );
-        console.log( process.env.UV_THREADPOOL_SIZE );
-        console.log( "*********************************************" );
-        let params = minimist(process.argv.splice(2)) || {};
-        let baseUrl = params['baseUrl'] || config.params.baseUrl;
-        let vid = params['vid'] || config.params.vid;
-        let isVe = params['isVe'] || config.params.isVe;
-        let system = isVe === 'true' ? 've' : 'primo';
 
-        fs.writeFile('gotcha.json', "{}", 'utf8', () => {
-            console.log("file written to root as {}")
-        });
+        let params = minimist(process.argv.splice(2)) || {};
+        let envArray = params['envArray'] || config.params.envArray ;
+        console.log(envArray[0]);
+
 
         const systemToRestPath = {
             'primo': '/primo_library/libweb/webservices/rest/v1',
@@ -42,6 +35,42 @@ class GotchaUtil {
             }
 
         };
+
+
+        if(envArray && envArray.length > 0){
+            let isVe = 'true';
+            let system = isVe === 'true' ? 've' : 'primo';
+            console.log("running smoke on all enviornments");
+            let _this = this;
+            envArray.forEach((env)=>{
+
+                console.log("running enviornment: " + env);
+
+                const http = new HttpClient(env);
+
+                let veInstancesRoute = systemToRestPath["ve"] + "/gotcha/ve";
+                console.log('baseUrl: ' + env + veInstancesRoute);
+
+                const veInstancesResponse: ResponsePromise = <ResponsePromise>http.get(veInstancesRoute).then(
+                    (veInstancesResponse) => {
+
+                        console.log("ve env response: "+ veInstancesResponse.body)
+                        let veViews = JSON.parse(veInstancesResponse.body);
+                        let index = 0;
+                        Object.keys(veViews).filter(key => key !== 'beaconO22' && key.indexOf('ResearchRepository') === -1 && key.indexOf(':Services') === -1).forEach(function(key) {
+                            if(index < 5){
+                                console.log('Key : ' + key + ', Value : ' + veViews[key])
+                                _this.runOnView(env, systemToRestPath, "ve", apiRoute, key, index);
+                                index++;
+                            }
+
+                        })
+                    });
+            })
+        }
+    }
+
+    static runOnView(baseUrl: any|string, systemToRestPath: {primo: string; ve: string}, system: string|string, apiRoute: {conf: {primo: string; ve: string}; jwt: {primo: string; ve: string}; gotcha: {primo: string; ve: string}}, vid: any|string, index: any|string) {
         const http = new HttpClient(baseUrl);
 
         let confRoute = systemToRestPath[system] + apiRoute.conf[system] + '/' + vid;
@@ -67,43 +96,49 @@ class GotchaUtil {
                         console.log('gotchaPath: ' + baseUrl + gotchaPath);
 
 
-
-
                         function callback(error, gotchaResponse, body) {
-                            if(!error && gotchaResponse && gotchaResponse.body){
-
+                            console.log("###### " +JSON.parse(gotchaResponse.body).errorCode);
+                            error = error || JSON.parse(gotchaResponse.body).errorCode;
+                            if (!error && gotchaResponse && gotchaResponse.body) {
+                                console.log("gotchaResponse.body: " + gotchaResponse.body);
                                 let gotchaObj = JSON.parse(gotchaResponse.body);
-
-
                                 let gotchaConfPath = systemToRestPath[system] + apiRoute.gotcha[system] + '/' + vid + '/conf?&newspapersActive=' + conf['primo-view'].institution['newspapers-search'] + '&refEntryActive=' + conf['primo-view']['attributes-map']['refEntryActive'];
                                 console.log('gotchaConfPath: ' + baseUrl + gotchaConfPath);
 
                                 function callbackConf(error, gotchaConfResponse, body) {
-                                    if(!error && gotchaConfResponse && gotchaConfResponse.body){
-                                        let gotchaConfObj = JSON.parse(gotchaConfResponse.body);
-                                        console.log('gotcha: ' + JSON.stringify(gotchaConfObj));
+                                    if (!error && gotchaConfResponse && gotchaConfResponse.body) {
+                                        setTimeout(function () {
+                                            let gotchaConfObj = JSON.parse(gotchaConfResponse.body);
+                                            console.log('gotcha: ' + JSON.stringify(gotchaConfObj));
 
 
-                                        gotchaObj.conf = gotchaConfObj.conf;
+                                            gotchaObj.conf = gotchaConfObj.conf;
 
-                                        let gotcha = JSON.stringify(gotchaObj)
-                                        console.log('gotcha: ' + gotcha);
-                                        fs.writeFile('gotcha.json', gotcha, 'utf8', () => {
-                                            console.log("file written to root with data: " + gotcha)
-                                        });
-                                        fs.writeFile('tmp/gotcha.json', gotcha, 'utf8', () => {
-                                            console.log("file written to tmp/gotcha.json")
-                                        });
+                                            let gotcha = JSON.stringify(gotchaObj)
+                                            console.log('gotcha: ' + gotcha + 'system: ' + system + (system === 've'));
+                                            //run the tests
+                                            let escapeJson = escape(gotcha);
+                                            let args = ['--params.baseUrl', baseUrl, '--params.vid', vid, '--params.isVe',
+                                                system === 've' ? 'true':'false',
+                                                '--params.gotcha', escapeJson];
+
+                                            const { spawn } = require('child_process');
+                                            const child = spawn("protractor.cmd", ['tmp/protractor.conf.js'].concat(args), {
+                                                stdio: "inherit"
+                                            });
+                                            /*child.on('exit', function (code, signal) {
+                                                console.log('child process exited with ' +
+                                                    `code ${code} and signal ${signal}`);
+                                            });
+                                            child.on('error', function (code, signal) {
+                                                console.log('child process exited error with ' +
+                                                    `code ${code} and signal ${signal}`);
+                                            });*/
+                                        }, 5000 * index);
                                     }
-                                    else{
-                                        if(error){
-                                            console.log("error: "+error);
-                                            fs.writeFile('gotcha.json', '{}', 'utf8', () => {
-                                                console.log("file written to root with data: {}" )
-                                            });
-                                            fs.writeFile('tmp/gotcha.json', '{}', 'utf8', () => {
-                                                console.log("file written to tmp/gotcha.json")
-                                            });
+                                    else {
+                                        if (error) {
+                                            console.log("error: " + error);
                                         }
                                     }
 
@@ -119,17 +154,10 @@ class GotchaUtil {
                                 const gotchaConfResponse = request(options, callbackConf);
 
                             }
-                            else{
-                                if(error){
-                                    console.log("error: "+error);
+                            else {
+                                if (error) {
+                                    console.log("error: " + error);
                                 }
-
-                                fs.writeFile('gotcha.json', '{}', 'utf8', () => {
-                                    console.log("file written to root with data: {}" )
-                                });
-                                fs.writeFile('tmp/gotcha.json', '{}', 'utf8', () => {
-                                    console.log("file written to tmp/gotcha.json")
-                                });
                             }
 
                         }

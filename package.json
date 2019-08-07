@@ -2,20 +2,29 @@
   "name": "primo-protractor-tests",
   "scripts": {
     "test": "bash test_loop.sh",
-    "local_test": "tsc&&protractor tmp/protractor.conf.js"
+    "local_test": "tsc&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js",
+    "local_test_linux": "cp gotcha.tmpl.json gotcha.json&&tsc&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js"
   },
   "version": "1.0.0",
   "dependencies": {
+    "chromedriver": "^2.45.0",
     "jasmine": "^3.3.1",
+    "lodash": "^4.17.11",
+    "minimist": "^1.2.0",
     "protractor": "^5.4.2",
+    "protractor-http-client": "^1.0.4",
     "typescript": "^3.2.2"
   },
   "devDependencies": {
     "@types/jasmine": "^3.3.5",
     "@types/jasminewd2": "^2.0.6",
+    "@types/lodash": "^4.14.121",
     "@types/node": "^10.12.18",
     "@types/selenium-webdriver": "^3.0.14",
+    "@types/request": "2.47.0",
+    "mkdirp": "^0.5.1",
     "protractor-jasmine2-screenshot-reporter": "^0.5.0",
+    "rimraf": "^2.6.3",
     "ts-node": "^7.0.1"
   }
 }

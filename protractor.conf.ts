@@ -1,10 +1,10 @@
 import {Config} from "protractor";
 import {getChromeCapabilities, getFirefoxCapabilities} from "./capabilities";
 import {promise} from "protractor"
-import AppConfigUtil from "./utils/appconfig-util";
+import {PrimoStudioReporter} from "./primoStudioReporter";
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
-var reporter = new HtmlScreenshotReporter({
+var htmlReporter = new HtmlScreenshotReporter({
     dest: 'target/screenshots',
     showQuickLinks: true,
     userCss: '../../report.css',
@@ -12,7 +12,7 @@ var reporter = new HtmlScreenshotReporter({
     reportOnlyFailedSpecs: false
 });
 
-var directConnect = process.platform !== 'win32' && !(process.env.HOSTTYPE && process.env.HOSTTYPE === 'x86_64');
+var primoStudioReporter = new PrimoStudioReporter({});
 
 export const config: Config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
@@ -24,23 +24,25 @@ export const config: Config = {
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
     resultJsonOutputFile: 'target/results.json',
-    directConnect: directConnect,
     getMultiCapabilities: () => {
         let chromeCapabilities = getChromeCapabilities();
         let firefoxCapabilities = getFirefoxCapabilities();
 
-        return promise.all([chromeCapabilities, firefoxCapabilities]);
+        return promise.all([chromeCapabilities]);
     },
     noGlobals: false,
     allScriptsTimeout: 120000,
     getPageTimeout: 120000,
     jasmineNodeOpts: {
-        stopSpecOnExpectationFailure: false
+        stopSpecOnExpectationFailure: false,
+        defaultTimeoutInterval: 90000
     },
     //runs once before the tests
     beforeLaunch: () => {
         return new Promise((resolve) => {
-            reporter.beforeLaunch(resolve);
+            primoStudioReporter.beforeLaunch(() => {
+                htmlReporter.beforeLaunch(resolve);
+            });
         });
     },
 
@@ -48,14 +50,16 @@ export const config: Config = {
     onPrepare: () => {
         let globals = require('protractor');
         let browser = globals.browser;
-        jasmine.getEnv().addReporter(reporter);
-        AppConfigUtil.setScopeTypes();
+        jasmine.getEnv().addReporter(htmlReporter);
+        jasmine.getEnv().addReporter(primoStudioReporter);
     },
 
     // Close the report after all tests finish
     afterLaunch: (exitCode) => {
         return new Promise<any>((resolve) => {
-            reporter.afterLaunch(resolve.bind(this, exitCode));
+            primoStudioReporter.afterLaunch(() => {
+                htmlReporter.afterLaunch(resolve.bind(this, exitCode));
+            });
         });
     },
     suites: {

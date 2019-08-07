@@ -1,0 +1,225 @@
+{
+  "tests": {
+    "search": {
+      "europeanSpecialCaracter": [
+        {
+          "scopeId": "MyInst_and_CI",
+          "percision": "contains",
+          "tab": "Everything",
+          "field": "any",
+          "expected": "10594",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,Système éducatif&tab=Everything&search_scope=MyInst_and_CI&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "Système éducatif",
+          "term": "any,contains,Système éducatif"
+        },
+        {
+          "scopeId": "MyInstitution",
+          "percision": "contains",
+          "tab": "LibraryCatalog",
+          "field": "any",
+          "expected": "1",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,Système éducatif&tab=LibraryCatalog&search_scope=MyInstitution&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "Système éducatif",
+          "term": "any,contains,Système éducatif"
+        },
+        {
+          "scopeId": "CentralIndex",
+          "percision": "contains",
+          "tab": "CentralIndex",
+          "field": "any",
+          "expected": "10593",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,Système éducatif&tab=CentralIndex&search_scope=CentralIndex&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "Système éducatif",
+          "term": "any,contains,Système éducatif"
+        }
+      ],
+      "citation": [
+        {
+          "scopeId": "MyInst_and_CI",
+          "percision": "contains",
+          "tab": "Everything",
+          "field": "any",
+          "expected": "6",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,“Art History.” Britannica Online Academic Edition 31 Jan. 2019. Web.&tab=Everything&search_scope=MyInst_and_CI&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "“Art History.” Britannica Online Academic Edition 31 Jan. 2019. Web.",
+          "term": "any,contains,“Art History.” Britannica Online Academic Edition 31 Jan. 2019. Web."
+        },
+        {
+          "scopeId": "MyInstitution",
+          "percision": "contains",
+          "tab": "LibraryCatalog",
+          "field": "any",
+          "expected": "1",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,Preziosi, Donald. The Art of Art History A Critical Anthology. Oxford: N.p., 2009. Print.&tab=LibraryCatalog&search_scope=MyInstitution&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "Preziosi, Donald. The Art of Art History A Critical Anthology. Oxford: N.p., 2009. Print.",
+          "term": "any,contains,Preziosi, Donald. The Art of Art History A Critical Anthology. Oxford: N.p., 2009. Print."
+        },
+        {
+          "scopeId": "CentralIndex",
+          "percision": "contains",
+          "tab": "CentralIndex",
+          "field": "any",
+          "expected": "6",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,“Art History.” Britannica Online Academic Edition 31 Jan. 2019. Web.&tab=CentralIndex&search_scope=CentralIndex&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "“Art History.” Britannica Online Academic Edition 31 Jan. 2019. Web.",
+          "term": "any,contains,“Art History.” Britannica Online Academic Edition 31 Jan. 2019. Web."
+        }
+      ],
+      "cjk": [
+        {
+          "scopeId": "MyInst_and_CI",
+          "percision": "contains",
+          "tab": "Everything",
+          "field": "any",
+          "expected": "771675",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,日本&tab=Everything&search_scope=MyInst_and_CI&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "日本",
+          "term": "any,contains,日本"
+        },
+        {
+          "scopeId": "MyInstitution",
+          "percision": "contains",
+          "tab": "LibraryCatalog",
+          "field": "any",
+          "expected": "0",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,日本&tab=LibraryCatalog&search_scope=MyInstitution&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "日本",
+          "term": "any,contains,日本"
+        },
+        {
+          "scopeId": "CentralIndex",
+          "percision": "contains",
+          "tab": "CentralIndex",
+          "field": "any",
+          "expected": "771675",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,日本&tab=CentralIndex&search_scope=CentralIndex&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "日本",
+          "term": "any,contains,日本"
+        }
+      ],
+      "hebrew": [
+        {
+          "scopeId": "MyInst_and_CI",
+          "percision": "contains",
+          "tab": "Everything",
+          "field": "any",
+          "expected": "21123",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,ירושלים&tab=Everything&search_scope=MyInst_and_CI&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "ירושלים",
+          "term": "any,contains,ירושלים"
+        },
+        {
+          "scopeId": "MyInstitution",
+          "percision": "contains",
+          "tab": "LibraryCatalog",
+          "field": "any",
+          "expected": "0",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,ירושלים&tab=LibraryCatalog&search_scope=MyInstitution&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "ירושלים",
+          "term": "any,contains,ירושלים"
+        },
+        {
+          "scopeId": "CentralIndex",
+          "percision": "contains",
+          "tab": "CentralIndex",
+          "field": "any",
+          "expected": "21123",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,ירושלים&tab=CentralIndex&search_scope=CentralIndex&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "ירושלים",
+          "term": "any,contains,ירושלים"
+        }
+      ],
+      "knowenItem": [
+        {
+          "scopeId": "MyInst_and_CI",
+          "percision": "contains",
+          "tab": "Everything",
+          "field": "any",
+          "expected": "16359",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,The Catcher in the Rye&tab=Everything&search_scope=MyInst_and_CI&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "The Catcher in the Rye",
+          "term": "any,contains,The Catcher in the Rye"
+        },
+        {
+          "scopeId": "MyInstitution",
+          "percision": "contains",
+          "tab": "LibraryCatalog",
+          "field": "any",
+          "expected": "4",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,The Catcher in the Rye&tab=LibraryCatalog&search_scope=MyInstitution&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "The Catcher in the Rye",
+          "term": "any,contains,The Catcher in the Rye"
+        },
+        {
+          "scopeId": "CentralIndex",
+          "percision": "contains",
+          "tab": "CentralIndex",
+          "field": "any",
+          "expected": "16355",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,The Catcher in the Rye&tab=CentralIndex&search_scope=CentralIndex&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "The Catcher in the Rye",
+          "term": "any,contains,The Catcher in the Rye"
+        }
+      ],
+      "basic": [
+        {
+          "scopeId": "MyInst_and_CI",
+          "percision": "contains",
+          "tab": "Everything",
+          "field": "any",
+          "expected": "4694968",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,art history&tab=Everything&search_scope=MyInst_and_CI&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "art history",
+          "term": "any,contains,art history"
+        },
+        {
+          "scopeId": "MyInstitution",
+          "percision": "contains",
+          "tab": "LibraryCatalog",
+          "field": "any",
+          "expected": "1515",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,art history&tab=LibraryCatalog&search_scope=MyInstitution&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "art history",
+          "term": "any,contains,art history"
+        },
+        {
+          "scopeId": "CentralIndex",
+          "percision": "contains",
+          "tab": "CentralIndex",
+          "field": "any",
+          "expected": "4693453",
+          "link": "http://il-urmsand01.corp.exlibrisgroup.com:1801/discovery/search?query=any,contains,art history&tab=CentralIndex&search_scope=CentralIndex&vid=TRAINING_1_INST:Auto1",
+          "queryTerm": "art history",
+          "term": "any,contains,art history"
+        }
+      ]
+    }
+  },
+  "record": {},
+  "conf": {
+    "scopes": [
+      {
+        "types": "local,adaptor",
+        "tab": "Everything",
+        "scope-id": "MyInst_and_CI",
+        "tab-id-for-scope-matching": "Everything",
+        "locations": "Local,primo_central_multiple_fe"
+      },
+      {
+        "types": "local",
+        "tab": "LibraryCatalog",
+        "scope-id": "MyInstitution",
+        "tab-id-for-scope-matching": "LibraryCatalog",
+        "locations": "Local"
+      },
+      {
+        "types": "adaptor",
+        "tab": "CentralIndex",
+        "scope-id": "CentralIndex",
+        "tab-id-for-scope-matching": "CentralIndex",
+        "locations": "primo_central_multiple_fe"
+      }
+    ]
+  },
+  "beaconO22": "42803"
+}

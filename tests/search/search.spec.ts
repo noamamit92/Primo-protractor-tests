@@ -4,8 +4,10 @@ describe('simple search test: ', function () {
     for(const area in SearchPage.terms) {
         SearchPage.terms[area].forEach((gotchaSearch,i) => {
             it('should search for ' + area + ' term in ' + gotchaSearch.scopeId + ' scope' + ' url: ' +gotchaSearch.link, function () {
-                SearchPage.goto(gotchaSearch.link, gotchaSearch.queryTerm);
-                expect(SearchPage.resultCountValue()).toEqual(Number(gotchaSearch.expected), 'number of results does not match');
+                var fixedAvailLink = gotchaSearch.link.replace('pcAvailability=','pc111Availability=');
+                fixedAvailLink += '&pcAvailability=false';
+                SearchPage.goto(fixedAvailLink, gotchaSearch.queryTerm);
+                expect(SearchPage.resultCountValue()).toEqual(Number(gotchaSearch.expected.replace(/\D/g,'')), 'number of results does not match');
                 SearchPage.scopeDropDownButton.isPresent().then((result) => {
                     if (result) {
                         expect(SearchPage.selectedScopeValue.getAttribute('value')).toEqual(gotchaSearch.scopeId, "incorrect scope is selected");

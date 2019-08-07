@@ -6,9 +6,13 @@ import {config} from "./protractor.conf";
 
 const request = require('request');
 
+
 class GotchaUtil {
 
     public static init() {
+        console.log( "*********************************************" );
+        console.log( process.env.UV_THREADPOOL_SIZE );
+        console.log( "*********************************************" );
         let params = minimist(process.argv.splice(2)) || {};
         let baseUrl = params['baseUrl'] || config.params.baseUrl;
         let vid = params['vid'] || config.params.vid;
@@ -41,7 +45,7 @@ class GotchaUtil {
         const http = new HttpClient(baseUrl);
 
         let confRoute = systemToRestPath[system] + apiRoute.conf[system] + '/' + vid;
-        console.log('baseUrl: ' + baseUrl);
+        console.log('baseUrl: ' + baseUrl + confRoute);
 
         const confResponse: ResponsePromise = <ResponsePromise>http.get(confRoute).then(
             (confResponse) => {
@@ -59,18 +63,75 @@ class GotchaUtil {
                         let jwt = jwtResponse.body;
                         console.log('jwt: ' + jwt);
 
-                        let gotchaPath = systemToRestPath[system] + apiRoute.gotcha[system] + '/' + vid + '/all?newspapersActive=' + conf['primo-view'].institution['newspapers-search'] + '&refEntryActive=' + conf['primo-view']['attributes-map']['refEntryActive'];
-                        console.log('gotchaPath: ' + gotchaPath);
+                        let gotchaPath = systemToRestPath[system] + apiRoute.gotcha[system] + '/' + vid + '/tests?area=search&test=basic&newspapersActive=' + conf['primo-view'].institution['newspapers-search'] + '&refEntryActive=' + conf['primo-view']['attributes-map']['refEntryActive'];
+                        console.log('gotchaPath: ' + baseUrl + gotchaPath);
+
+
+
 
                         function callback(error, gotchaResponse, body) {
-                            let gotcha = gotchaResponse.body;
-                            console.log('gotcha: ' + gotcha);
-                            fs.writeFile('gotcha.json', gotcha, 'utf8', () => {
-                                console.log("file written to root with data: " + gotcha)
-                            });
-                            fs.writeFile('tmp/gotcha.json', gotcha, 'utf8', () => {
-                                console.log("file written to tmp/gotcha.json")
-                            });
+                            if(!error && gotchaResponse && gotchaResponse.body){
+
+                                let gotchaObj = JSON.parse(gotchaResponse.body);
+
+
+                                let gotchaConfPath = systemToRestPath[system] + apiRoute.gotcha[system] + '/' + vid + '/conf?&newspapersActive=' + conf['primo-view'].institution['newspapers-search'] + '&refEntryActive=' + conf['primo-view']['attributes-map']['refEntryActive'];
+                                console.log('gotchaConfPath: ' + baseUrl + gotchaConfPath);
+
+                                function callbackConf(error, gotchaConfResponse, body) {
+                                    if(!error && gotchaConfResponse && gotchaConfResponse.body){
+                                        let gotchaConfObj = JSON.parse(gotchaConfResponse.body);
+                                        console.log('gotcha: ' + JSON.stringify(gotchaConfObj));
+
+
+                                        gotchaObj.conf = gotchaConfObj.conf;
+
+                                        let gotcha = JSON.stringify(gotchaObj)
+                                        console.log('gotcha: ' + gotcha);
+                                        fs.writeFile('gotcha.json', gotcha, 'utf8', () => {
+                                            console.log("file written to root with data: " + gotcha)
+                                        });
+                                        fs.writeFile('tmp/gotcha.json', gotcha, 'utf8', () => {
+                                            console.log("file written to tmp/gotcha.json")
+                                        });
+                                    }
+                                    else{
+                                        if(error){
+                                            console.log("error: "+error);
+                                            fs.writeFile('gotcha.json', '{}', 'utf8', () => {
+                                                console.log("file written to root with data: {}" )
+                                            });
+                                            fs.writeFile('tmp/gotcha.json', '{}', 'utf8', () => {
+                                                console.log("file written to tmp/gotcha.json")
+                                            });
+                                        }
+                                    }
+
+                                }
+
+                                let options = {
+                                    method: 'GET',
+                                    url: baseUrl + gotchaConfPath,
+                                    headers: {
+                                        'Authorization': 'Bearer ' + jwt
+                                    }
+                                };
+                                const gotchaConfResponse = request(options, callbackConf);
+
+                            }
+                            else{
+                                if(error){
+                                    console.log("error: "+error);
+                                }
+
+                                fs.writeFile('gotcha.json', '{}', 'utf8', () => {
+                                    console.log("file written to root with data: {}" )
+                                });
+                                fs.writeFile('tmp/gotcha.json', '{}', 'utf8', () => {
+                                    console.log("file written to tmp/gotcha.json")
+                                });
+                            }
+
                         }
 
                         let options = {

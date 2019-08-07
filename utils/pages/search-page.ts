@@ -14,7 +14,7 @@ export default class SearchPage{
     private static scopesObjects = data.conf.scopes;
     private static searchTerms = data.tests.search;
     public static resultsCount = element(by.css('.results-count'));
-    
+
     /**
      * performs search with deep link
      * @param term term to be searched
@@ -24,7 +24,7 @@ export default class SearchPage{
     public static search(term: string, tab: string, scope: string) {
         let urlParams = 'query=any,contains,' + encodeURI(term) + '&tab=' + tab + '&search_scope=' + scope;
         Browser.get('/search', urlParams);
-        Browser.waitForAngular();        
+        Browser.waitForAngular();
     }
 
 
@@ -50,7 +50,7 @@ export default class SearchPage{
                 } else {
                     reject('could not parse number of results');
                 }
-           });
+            });
         });
     }
 

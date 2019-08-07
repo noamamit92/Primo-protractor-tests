@@ -2,18 +2,16 @@
   "name": "primo-protractor-tests",
   "scripts": {
     "test": "bash test_loop.sh",
-    "local_test": "tsc&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js",
-    "local_test_linux": "cp gotcha.tmpl.json gotcha.json&&tsc&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js"
+    "local_test": "cpy gotcha.tmpl.json ./ --rename=gotcha.json&&tsc&&SET UV_THREADPOOL_SIZE=128&&node tmp/gotcha-util.js&&protractor tmp/protractor.conf.js"
   },
   "version": "1.0.0",
   "dependencies": {
-    "chromedriver": "^2.45.0",
+    "cpy": "^7.3.0",
     "jasmine": "^3.3.1",
-    "lodash": "^4.17.11",
-    "minimist": "^1.2.0",
     "protractor": "^5.4.2",
     "protractor-http-client": "^1.0.4",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "webdriver-manager": "^12.1.6"
   },
   "devDependencies": {
     "@types/jasmine": "^3.3.5",

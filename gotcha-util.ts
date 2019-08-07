@@ -12,7 +12,8 @@ class GotchaUtil {
     public static init() {
 
         let params = minimist(process.argv.splice(2)) || {};
-        let envArray = params['envArray'] || config.params.envArray ;
+
+        let envArray = [params['envArray']] || config.params.envArray ;
         console.log(envArray[0]);
 
 

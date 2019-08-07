@@ -2,7 +2,7 @@
   "name": "primo-protractor-tests",
   "scripts": {
     "test": "bash test_loop.sh",
-    "local_test": "tsc&&SET UV_THREADPOOL_SIZE=256&&node tmp/gotcha-util.js"
+    "env_test": "tsc&&SET UV_THREADPOOL_SIZE=256&&node tmp/gotcha-util.js"
   },
   "version": "1.0.0",
   "dependencies": {

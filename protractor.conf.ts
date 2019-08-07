@@ -17,7 +17,7 @@ var primoStudioReporter = new PrimoStudioReporter({});
 export const config: Config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     params: {
-        envArray:['https://wrlc-gwu.primo.exlibrisgroup.com']
+        envArray:['https://sqa-ap01.alma.exlibrisgroup.com']
     },
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",
@@ -51,6 +51,7 @@ export const config: Config = {
         jasmine.getEnv().addReporter(htmlReporter);
         jasmine.getEnv().addReporter(primoStudioReporter);
         var jasmineReporters = require('jasmine-reporters');
+        var timestamp = new Date().getTime().toString();
         var junitReporter = new jasmineReporters.JUnitXmlReporter({
 
             // setup the output path for the junit reports
@@ -62,7 +63,8 @@ export const config: Config = {
             // conslidate all set to false:
             //   output/junitresults-example1.xml
             //   output/junitresults-example2.xml
-            consolidateAll: false
+            consolidateAll: true,
+            filePrefix:timestamp
 
         });
         jasmine.getEnv().addReporter(junitReporter);

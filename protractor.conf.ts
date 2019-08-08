@@ -31,7 +31,7 @@ export const config: Config = {
     getPageTimeout: 120000,
     jasmineNodeOpts: {
         stopSpecOnExpectationFailure: false,
-        defaultTimeoutInterval: 90000
+        defaultTimeoutInterval: 120000
     },
 
 

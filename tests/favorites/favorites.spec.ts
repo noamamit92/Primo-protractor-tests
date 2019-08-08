@@ -12,6 +12,7 @@ describe('check favorites', function () {
                     FavoritesPage.favoritesButtons.first().click();
                     Browser.waitForAngular();
                     FavoritesPage.goToFavorites();
+                    Browser.waitForAngular();
                     expect(SearchPage.searchResults.count()).toEqual(1);
                 }
             }

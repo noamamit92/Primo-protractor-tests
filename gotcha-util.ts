@@ -131,7 +131,7 @@ class GotchaUtil {
                                                 child.send(params);
                                             });
 
-                                        }, 5000 * index);
+                                        }, 15000 * index);
                                     }
                                     else {
                                         if (error) {

@@ -118,23 +118,19 @@ class GotchaUtil {
                                             let gotcha = JSON.stringify(gotchaObj)
                                             console.log('gotcha: ' + gotcha + 'system: ' + system + (system === 've'));
                                             //run the tests
-                                            let escapeJson = escape(gotcha);
-                                            let args = ['--params.baseUrl', baseUrl, '--params.vid', vid, '--params.isVe',
-                                                system === 've' ? 'true':'false',
-                                                '--params.gotcha', escapeJson];
 
-                                            const { spawn } = require('child_process');
-                                            const child = spawn("protractor.cmd", ['tmp/protractor.conf.js'].concat(args), {
+                                            let params = {baseUrl: baseUrl, vid: vid, isVe:
+                                                system === 've' ? 'true':'false',
+                                                gotcha: gotchaObj};
+
+                                            const { fork } = require('child_process');
+                                            const child = fork("tmp/launcher-util.js",{
                                                 stdio: "inherit"
                                             });
-                                            /*child.on('exit', function (code, signal) {
-                                                console.log('child process exited with ' +
-                                                    `code ${code} and signal ${signal}`);
+                                            child.on('message', function (message) {
+                                                child.send(params);
                                             });
-                                            child.on('error', function (code, signal) {
-                                                console.log('child process exited error with ' +
-                                                    `code ${code} and signal ${signal}`);
-                                            });*/
+
                                         }, 5000 * index);
                                     }
                                     else {

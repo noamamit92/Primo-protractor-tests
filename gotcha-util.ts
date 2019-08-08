@@ -130,6 +130,10 @@ class GotchaUtil {
                                             child.on('message', function (message) {
                                                 child.send(params);
                                             });
+                                            child.on('error', function (code, signal) {
+                                                console.log('child process exited error with ' +
+                                                    `code ${code} and signal ${signal}`);
+                                            });
 
                                         }, 15000 * index);
                                     }

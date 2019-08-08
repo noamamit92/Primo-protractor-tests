@@ -1,7 +1,6 @@
 import {Config} from "protractor";
 import {getChromeCapabilities, getFirefoxCapabilities} from "./capabilities";
 import {promise} from "protractor"
-import {PrimoStudioReporter} from "./primoStudioReporter";
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
 var htmlReporter = new HtmlScreenshotReporter({
@@ -12,7 +11,6 @@ var htmlReporter = new HtmlScreenshotReporter({
     reportOnlyFailedSpecs: false
 });
 
-var primoStudioReporter = new PrimoStudioReporter({});
 
 export const config: Config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
@@ -35,21 +33,13 @@ export const config: Config = {
         stopSpecOnExpectationFailure: false,
         defaultTimeoutInterval: 90000
     },
-    //runs once before the tests
-    beforeLaunch: () => {
-        return new Promise((resolve) => {
-            primoStudioReporter.beforeLaunch(() => {
-                htmlReporter.beforeLaunch(resolve);
-            });
-        });
-    },
+
+
 
     // Assign the test reporter to each running instance, runs for every capabillity
     onPrepare: () => {
         let globals = require('protractor');
         let browser = globals.browser;
-        jasmine.getEnv().addReporter(htmlReporter);
-        jasmine.getEnv().addReporter(primoStudioReporter);
         var jasmineReporters = require('jasmine-reporters');
         var timestamp = new Date().getTime().toString();
         var junitReporter = new jasmineReporters.JUnitXmlReporter({
@@ -74,13 +64,7 @@ export const config: Config = {
     },
 
     // Close the report after all tests finish
-    afterLaunch: (exitCode) => {
-        return new Promise<any>((resolve) => {
-            primoStudioReporter.afterLaunch(() => {
-                htmlReporter.afterLaunch(resolve.bind(this, exitCode));
-            });
-        });
-    },
+
     suites: {
         search: ['tests/search/*.spec.js'],
         favorites: ['tests/favorites/*.spec.js']

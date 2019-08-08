@@ -7,7 +7,8 @@ describe('simple search test: ', function () {
                 var fixedAvailLink = gotchaSearch.link.replace('pcAvailability=','pc111Availability=');
                 fixedAvailLink += '&pcAvailability=false';
                 SearchPage.goto(fixedAvailLink, gotchaSearch.queryTerm);
-                expect(SearchPage.resultCountValue()).toEqual(Number(gotchaSearch.expected.replace(/\D/g,'')), 'number of results does not match');
+                expect(SearchPage.resultCountValue().toBeWithinRange(
+                    Number(gotchaSearch.expected.replace(/\D/g,''))*0.9, Number(gotchaSearch.expected.replace(/\D/g,'')) * 1.1), 'number of results does not match');
                 SearchPage.scopeDropDownButton.isPresent().then((result) => {
                     if (result) {
                         expect(SearchPage.selectedScopeValue.getAttribute('value')).toEqual(gotchaSearch.scopeId, "incorrect scope is selected");

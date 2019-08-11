@@ -8,8 +8,8 @@ describe('simple search test: ', function () {
                 fixedAvailLink += '&pcAvailability=false';
                 SearchPage.goto(fixedAvailLink, gotchaSearch.queryTerm);
                 SearchPage.resultCountValue().then((count)=>{
-                    var highBorder = Number(gotchaSearch.expected.replace(/\D/g,'')) * 1.5;
-                    var lowBorder = Number(gotchaSearch.expected.replace(/\D/g,''))*0.5;
+                    var highBorder = Number(gotchaSearch.expected.replace(/\D/g,'')) * 1.1;
+                    var lowBorder = Number(gotchaSearch.expected.replace(/\D/g,''))*0.9;
                     //pcAvailability seems to be unstable in ve - strange inconsistency - so checking both modes to be sure
                     if(count > highBorder || count < lowBorder){
                         fixedAvailLink = gotchaSearch.link.replace('pcAvailability=','pc111Availability=');

@@ -135,7 +135,7 @@ class GotchaUtil {
                                                     `code ${code} and signal ${signal}`);
                                             });
 
-                                        }, 30000 * index);
+                                        }, 20000 * index);
                                     }
                                     else {
                                         if (error) {

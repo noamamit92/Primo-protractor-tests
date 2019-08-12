@@ -8,6 +8,7 @@ describe('simple search test: ', function () {
                 fixedAvailLink += '&pcAvailability=false';
                 SearchPage.goto(fixedAvailLink, gotchaSearch.queryTerm);
                 SearchPage.resultCountValue().then((count)=>{
+                    console.log("checking count against gotcha: count: + " + count + " gotcha expected: "+ gotchaSearch.expected.replace(/\D/g,''));
                     var highBorder = Number(gotchaSearch.expected.replace(/\D/g,'')) * 1.1;
                     var lowBorder = Number(gotchaSearch.expected.replace(/\D/g,''))*0.9;
                     //pcAvailability seems to be unstable in ve - strange inconsistency - so checking both modes to be sure
@@ -16,6 +17,7 @@ describe('simple search test: ', function () {
                         fixedAvailLink += '&pcAvailability=true';
                         SearchPage.goto(fixedAvailLink, gotchaSearch.queryTerm);
                         SearchPage.resultCountValue().then((count)=>{
+                            console.log("checking again with pcAvailability true - count against gotcha: count: + " + count + " gotcha expected: "+ gotchaSearch.expected.replace(/\D/g,''));
                             expect(count).toBeLessThanOrEqual(highBorder, 'number of results does not match');
                             expect(count).toBeGreaterThanOrEqual(lowBorder, 'number of results does not match');
                 SearchPage.scopeDropDownButton.isPresent().then((result) => {

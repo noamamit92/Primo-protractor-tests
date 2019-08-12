@@ -59,7 +59,7 @@ class GotchaUtil {
                         let veViews = JSON.parse(veInstancesResponse.body);
                         let index = 0;
                         Object.keys(veViews).filter(key => key !== 'beaconO22' && key.indexOf('ResearchRepository') === -1 && key.indexOf(':Services') === -1).forEach(function(key) {
-                            if(index < 10){
+                            if(index < 7){
                                 console.log('Key : ' + key + ', Value : ' + veViews[key])
                                 _this.runOnView(env, systemToRestPath, "ve", apiRoute, key, index);
                                 index++;
@@ -136,7 +136,7 @@ class GotchaUtil {
                                                         `code ${code} and signal ${signal}`);
                                                 });
 
-                                            }, 20000 * index);
+                                            }, 30000 * index);
                                         }
                                         else {
                                             if (error) {

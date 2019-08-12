@@ -6,7 +6,7 @@ import minimist from 'minimist';
 import {config} from "./protractor.conf";
 
 const request = require('request');
-
+const NUMBER_OF_ITERATIONS = 5;
 class GotchaUtil {
 
     public static init() {
@@ -59,7 +59,7 @@ class GotchaUtil {
                         let veViews = JSON.parse(veInstancesResponse.body);
                         let index = 0;
                         Object.keys(veViews).filter(key => key !== 'beaconO22' && key.indexOf('ResearchRepository') === -1 && key.indexOf(':Services') === -1).forEach(function(key) {
-                            if(index < 5){
+                            if(index < 10){
                                 console.log('Key : ' + key + ', Value : ' + veViews[key])
                                 _this.runOnView(env, systemToRestPath, "ve", apiRoute, key, index);
                                 index++;
@@ -81,100 +81,105 @@ class GotchaUtil {
             (confResponse) => {
                 let conf = JSON.parse(confResponse.body);
                 let institutionCode = conf['primo-view']['institution']['institution-code'];
+                let isNPActive = conf['primo-view']['institution']['newspapers-search'];
                 console.log('view institution: ' + institutionCode);
+                if(!isNPActive){//cannot test for now - need to fix gotcha api to not always send false for NPS
+                    let jwtPath = {
+                        'primo': systemToRestPath[system] + apiRoute.jwt[system] + '/guestJwt/' + institutionCode + '?lang=en_US&viewId=' + vid,
+                        've': systemToRestPath[system] + apiRoute.jwt[system] + '/' + institutionCode + '/guestJwt?lang=en&viewId=' + vid
+                    };
+                    console.log('jwtPath: ' + jwtPath[system]);
+                    const jwtResponse: ResponsePromise = <ResponsePromise>http.get(jwtPath[system]).then(
+                        (jwtResponse) => {
+                            let jwt = jwtResponse.body;
+                            console.log('jwt: ' + jwt);
 
-                let jwtPath = {
-                    'primo': systemToRestPath[system] + apiRoute.jwt[system] + '/guestJwt/' + institutionCode + '?lang=en_US&viewId=' + vid,
-                    've': systemToRestPath[system] + apiRoute.jwt[system] + '/' + institutionCode + '/guestJwt?lang=en&viewId=' + vid
-                };
-                console.log('jwtPath: ' + jwtPath[system]);
-                const jwtResponse: ResponsePromise = <ResponsePromise>http.get(jwtPath[system]).then(
-                    (jwtResponse) => {
-                        let jwt = jwtResponse.body;
-                        console.log('jwt: ' + jwt);
-
-                        let gotchaPath = systemToRestPath[system] + apiRoute.gotcha[system] + '/' + vid + '/tests?area=search&test=basic&newspapersActive=' + conf['primo-view'].institution['newspapers-search'] + '&refEntryActive=' + conf['primo-view']['attributes-map']['refEntryActive'];
-                        console.log('gotchaPath: ' + baseUrl + gotchaPath);
-
-
-                        function callback(error, gotchaResponse, body) {
-                            console.log("###### " +JSON.parse(gotchaResponse.body).errorCode);
-                            error = error || JSON.parse(gotchaResponse.body).errorCode;
-                            if (!error && gotchaResponse && gotchaResponse.body) {
-                                console.log("gotchaResponse.body: " + gotchaResponse.body);
-                                let gotchaObj = JSON.parse(gotchaResponse.body);
-                                let gotchaConfPath = systemToRestPath[system] + apiRoute.gotcha[system] + '/' + vid + '/conf?&newspapersActive=' + conf['primo-view'].institution['newspapers-search'] + '&refEntryActive=' + conf['primo-view']['attributes-map']['refEntryActive'];
-                                console.log('gotchaConfPath: ' + baseUrl + gotchaConfPath);
-
-                                function callbackConf(error, gotchaConfResponse, body) {
-                                    if (!error && gotchaConfResponse && gotchaConfResponse.body) {
-                                        setTimeout(function () {
-                                            let gotchaConfObj = JSON.parse(gotchaConfResponse.body);
-                                            console.log('gotcha: ' + JSON.stringify(gotchaConfObj));
+                            let gotchaPath = systemToRestPath[system] + apiRoute.gotcha[system] + '/' + vid + '/tests?area=search&test=basic&newspapersActive=' + conf['primo-view'].institution['newspapers-search'] + '&refEntryActive=' + conf['primo-view']['attributes-map']['refEntryActive'];
+                            console.log('gotchaPath: ' + baseUrl + gotchaPath);
 
 
-                                            gotchaObj.conf = gotchaConfObj.conf;
+                            function callback(error, gotchaResponse, body) {
+                                console.log("###### " +JSON.parse(gotchaResponse.body).errorCode);
+                                error = error || JSON.parse(gotchaResponse.body).errorCode;
+                                if (!error && gotchaResponse && gotchaResponse.body) {
+                                    console.log("gotchaResponse.body: " + gotchaResponse.body);
+                                    let gotchaObj = JSON.parse(gotchaResponse.body);
+                                    let gotchaConfPath = systemToRestPath[system] + apiRoute.gotcha[system] + '/' + vid + '/conf?&newspapersActive=' + conf['primo-view'].institution['newspapers-search'] + '&refEntryActive=' + conf['primo-view']['attributes-map']['refEntryActive'];
+                                    console.log('gotchaConfPath: ' + baseUrl + gotchaConfPath);
 
-                                            let gotcha = JSON.stringify(gotchaObj)
-                                            console.log('gotcha: ' + gotcha + 'system: ' + system + (system === 've'));
-                                            //run the tests
+                                    function callbackConf(error, gotchaConfResponse, body) {
+                                        if (!error && gotchaConfResponse && gotchaConfResponse.body) {
+                                            setTimeout(function () {
+                                                let gotchaConfObj = JSON.parse(gotchaConfResponse.body);
+                                                console.log('gotcha: ' + JSON.stringify(gotchaConfObj));
 
-                                            let params = {baseUrl: baseUrl, vid: vid, isVe:
-                                                system === 've' ? 'true':'false',
-                                                gotcha: gotchaObj};
 
-                                            const { fork } = require('child_process');
-                                            const child = fork("tmp/launcher-util.js",{
-                                                stdio: "inherit"
-                                            });
-                                            child.on('message', function (message) {
-                                                child.send(params);
-                                            });
-                                            child.on('error', function (code, signal) {
-                                                console.log('child process exited error with ' +
-                                                    `code ${code} and signal ${signal}`);
-                                            });
+                                                gotchaObj.conf = gotchaConfObj.conf;
 
-                                        }, 20000 * index);
-                                    }
-                                    else {
-                                        if (error) {
-                                            console.log("error: " + error);
+                                                let gotcha = JSON.stringify(gotchaObj)
+                                                console.log('gotcha: ' + gotcha + 'system: ' + system + (system === 've'));
+                                                //run the tests
+
+                                                let params = {baseUrl: baseUrl, vid: vid, isVe:
+                                                    system === 've' ? 'true':'false',
+                                                    gotcha: gotchaObj};
+
+                                                const { fork } = require('child_process');
+                                                const child = fork("tmp/launcher-util.js",{
+                                                    stdio: "inherit"
+                                                });
+                                                child.on('message', function (message) {
+                                                    child.send(params);
+                                                });
+                                                child.on('error', function (code, signal) {
+                                                    console.log('child process exited error with ' +
+                                                        `code ${code} and signal ${signal}`);
+                                                });
+
+                                            }, 20000 * index);
                                         }
+                                        else {
+                                            if (error) {
+                                                console.log("error: " + error);
+                                            }
+                                        }
+
                                     }
 
-                                }
+                                    let options = {
+                                        method: 'GET',
+                                        url: baseUrl + gotchaConfPath,
+                                        headers: {
+                                            'Authorization': 'Bearer ' + jwt
+                                        }
+                                    };
+                                    const gotchaConfResponse = request(options, callbackConf);
 
-                                let options = {
-                                    method: 'GET',
-                                    url: baseUrl + gotchaConfPath,
-                                    headers: {
-                                        'Authorization': 'Bearer ' + jwt
+                                }
+                                else {
+                                    if (error) {
+                                        console.log("error: " + error);
                                     }
-                                };
-                                const gotchaConfResponse = request(options, callbackConf);
+                                }
 
                             }
-                            else {
-                                if (error) {
-                                    console.log("error: " + error);
+
+                            let options = {
+                                method: 'GET',
+                                url: baseUrl + gotchaPath,
+                                headers: {
+                                    'Authorization': 'Bearer ' + jwt
                                 }
-                            }
+                            };
+                            const gotchaResponse = request(options, callback);
 
                         }
+                    )
+                }
 
-                        let options = {
-                            method: 'GET',
-                            url: baseUrl + gotchaPath,
-                            headers: {
-                                'Authorization': 'Bearer ' + jwt
-                            }
-                        };
-                        const gotchaResponse = request(options, callback)
-                    }
-                )
             }
         );
+
     }
 }
 

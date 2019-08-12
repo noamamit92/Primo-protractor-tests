@@ -14,6 +14,8 @@ export default class SearchPage{
     public static selectedScope = element.all(by.repeater("scope in $ctrl.scopeOptions"));
     private static scopesObjects = browser.params.gotcha.conf.scopes;
     private static searchTerms = browser.params.gotcha.tests.search;
+    private static vid = browser.params.vid;
+    private static baseUrl = browser.params.baseUrl;
     public static resultsCount = element(by.css('.results-count'));
 
     /**
@@ -28,7 +30,6 @@ export default class SearchPage{
         Browser.waitForAngular();
     }
 
-
     /**
      * performs search with deep link from gotcha
      * @param url = the url from gotcha
@@ -39,19 +40,24 @@ export default class SearchPage{
         Browser.waitForAngular();
     }
 
+
     /**
      * gets number of results from search brief page
      */
     public static resultCountValue(): promise.Promise<Number> {
         return new Promise((resolve, reject) => {
-            this.resultsCount.getText().then((value) => {
-                let num = Number(value.split(" ")[0].replace(/,/g,""));
-                if (!isNaN(num)) {
-                    resolve(num);
-                } else {
-                    reject('could not parse number of results');
-                }
-            });
+            if(this.resultsCount.isPresent()){
+                console.log("testing...");
+                this.resultsCount.getText().then((value) => {
+                    let num = Number(value.split(" ")[0].replace(/,/g,""));
+                    if (!isNaN(num)) {
+                        resolve(num);
+                    } else {
+                        reject('could not parse number of results');
+                    }
+                });
+            }
+
         });
     }
 

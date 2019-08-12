@@ -57,6 +57,9 @@ export default class SearchPage{
                     }
                 });
             }
+            else{
+                console.log("not testing...");
+            }
 
         });
     }

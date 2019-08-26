@@ -40,6 +40,7 @@ export const config: Config = {
     onPrepare: () => {
         let globals = require('protractor');
         let browser = globals.browser;
+        browser.manage().window().setSize(1600, 800);
         var jasmineReporters = require('jasmine-reporters');
         var timestamp = new Date().getTime().toString();
         var junitReporter = new jasmineReporters.JUnitXmlReporter({

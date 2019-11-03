@@ -3,9 +3,17 @@
 
 On Local PC:
 
+webdriver-manager update
+
 webdriver-manager --detach --quiet start
 
-still a problem - gotcha.json uodated only after 2
+npm run env_test -- --env=https://eu00.primo.exlibrisgroup.com --view=39INS_INST:TEST
 
-once i changed to %2526 hebrew is wron
-best solution in the server not change to %26 but not fail
+or :
+
+npm run env_test -- --envArray=https://eu00.primo.exlibrisgroup.com
+
+or:
+
+npm run env_test -- --envArray=https://eu00.primo.exlibrisgroup.com,https://eu01.primo.exlibrisgroup.com
+

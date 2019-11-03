@@ -12,9 +12,13 @@ class GotchaUtil {
     public static init() {
 
         let params = minimist(process.argv.splice(2)) || {};
+        let envArray;
+        if(params['envArray']){
+            envArray = params['envArray'].split(',') || config.params.envArray ;
+            console.log(envArray[0]);
+        }
 
-        let envArray = params['envArray'].split(',') || config.params.envArray ;
-        console.log(envArray[0]);
+
 
 
         const systemToRestPath = {
@@ -68,6 +72,10 @@ class GotchaUtil {
                         })
                     });
             })
+        }else{
+            let env = params['env'] || config.params.env ;
+            let vid = params['view'] || config.params.view ;
+            this.runOnView(env, systemToRestPath, "ve", apiRoute, vid, 0);
         }
     }
 

@@ -24,6 +24,8 @@
     "mkdirp": "^0.5.1",
     "protractor-jasmine2-screenshot-reporter": "^0.5.0",
     "rimraf": "^2.6.3",
-    "ts-node": "^7.0.1"
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2",
+    "webdriver-manager": "latest"
   }
 }

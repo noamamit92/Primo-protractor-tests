@@ -10,9 +10,7 @@
     "jasmine": "^3.3.1",
     "jasmine-reporters": "^2.3.2",
     "protractor": "latest",
-    "protractor-http-client": "latest",
-    "typescript": "^3.2.2",
-    "webdriver-manager": "latest"
+    "protractor-http-client": "latest"
   },
   "devDependencies": {
     "@types/jasmine": "^3.3.5",

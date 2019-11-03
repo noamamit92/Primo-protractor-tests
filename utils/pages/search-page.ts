@@ -16,7 +16,9 @@ export default class SearchPage{
     private static searchTerms = browser.params.gotcha.tests.search;
     private static vid = browser.params.vid;
     private static baseUrl = browser.params.baseUrl;
-    public static resultsCount = element(by.css('.results-count'));
+    public static resultsCountForFavorites = element(by.css('.results-count'));
+    public static resultsCountForSearch = element(by.css('.search-toolbar-title .results-count'));
+
 
     /**
      * performs search with deep link
@@ -44,11 +46,11 @@ export default class SearchPage{
     /**
      * gets number of results from search brief page
      */
-    public static resultCountValue(): promise.Promise<Number> {
+    public static resultCountValueForSearch(): promise.Promise<Number> {
         return new Promise((resolve, reject) => {
-            if(this.resultsCount.isPresent()){
+            if(this.resultsCountForSearch.isPresent()){
                 console.log("testing...");
-                this.resultsCount.getText().then((value) => {
+                this.resultsCountForSearch.getText().then((value) => {
                     let num = Number(value.split(" ")[0].replace(/,/g,""));
                     if (!isNaN(num)) {
                         resolve(num);
@@ -63,6 +65,30 @@ export default class SearchPage{
 
         });
     }
+
+    /**
+     * gets number of results from search favorites page
+     */
+    public static resultCountValueForFavorites(): promise.Promise<Number> {
+        return new Promise((resolve, reject) => {
+            if(this.resultsCountForFavorites.isPresent()){
+                console.log("testing...");
+                this.resultsCountForFavorites.getText().then((value) => {
+                    let num = Number(value.split(" ")[0].replace(/,/g,""));
+                    if (!isNaN(num)) {
+                        resolve(num);
+                    } else {
+                        reject('could not parse number of results');
+                    }
+                });
+            }
+            else{
+                console.log("not testing...");
+            }
+
+        });
+    }
+
 
     /**
      * return the json objects of scopes from gotcha.json

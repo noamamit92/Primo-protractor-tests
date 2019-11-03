@@ -7,7 +7,7 @@ describe('simple search test: ', function () {
                 var fixedAvailLink = gotchaSearch.link.replace('pcAvailability=','pc111Availability=');
                 fixedAvailLink += '&pcAvailability=false';
                 SearchPage.goto(fixedAvailLink, gotchaSearch.queryTerm);
-                SearchPage.resultCountValue().then((count)=>{
+                SearchPage.resultCountValueForSearch().then((count)=>{
                     console.log("checking count against gotcha: count: + " + count + " gotcha expected: "+ gotchaSearch.expected.replace(/\D/g,''));
                     var highBorder = Number(gotchaSearch.expected.replace(/\D/g,'')) * 1.1;
                     var lowBorder = Number(gotchaSearch.expected.replace(/\D/g,''))*0.9;
@@ -16,21 +16,21 @@ describe('simple search test: ', function () {
                         fixedAvailLink = gotchaSearch.link.replace('pcAvailability=','pc111Availability=');
                         fixedAvailLink += '&pcAvailability=true';
                         SearchPage.goto(fixedAvailLink, gotchaSearch.queryTerm);
-                        SearchPage.resultCountValue().then((count)=>{
-                            console.log("checking again with pcAvailability true - count against gotcha: count: + " + count + " gotcha expected: "+ gotchaSearch.expected.replace(/\D/g,''));
+                        SearchPage.resultCountValueForSearch().then((count)=>{
+                            console.log("checking again with pcAvailability true - count against gotcha: count:  " + count + " gotcha expected: "+ gotchaSearch.expected.replace(/\D/g,''));
                             expect(count).toBeLessThanOrEqual(highBorder, 'number of results does not match');
                             expect(count).toBeGreaterThanOrEqual(lowBorder, 'number of results does not match');
-                SearchPage.scopeDropDownButton.isPresent().then((result) => {
-                    if (result) {
-                        expect(SearchPage.selectedScopeValue.getAttribute('value')).toEqual(gotchaSearch.scopeId, "incorrect scope is selected");
-                    }
-                });
-                SearchPage.tabDropDownButton.isPresent().then((result) => {
-                    if (result) {
-                        expect(SearchPage.selectedTabValue.getAttribute('value')).toEqual(gotchaSearch.tab, "incorrect tab is selected");
-                    }
-                });
-                expect(SearchPage.searchBar.getAttribute('value')).toEqual(gotchaSearch.queryTerm, "search bar does not contain correct term");
+                            SearchPage.scopeDropDownButton.isPresent().then((result) => {
+                                if (result) {
+                                    expect(SearchPage.selectedScopeValue.getAttribute('value')).toEqual(gotchaSearch.scopeId, "incorrect scope is selected");
+                                }
+                            });
+                            SearchPage.tabDropDownButton.isPresent().then((result) => {
+                                if (result) {
+                                    expect(SearchPage.selectedTabValue.getAttribute('value')).toEqual(gotchaSearch.tab, "incorrect tab is selected");
+                                }
+                            });
+                                expect(SearchPage.searchBar.getAttribute('value')).toEqual(gotchaSearch.queryTerm, "search bar does not contain correct term");
                             }
                         );
                     }

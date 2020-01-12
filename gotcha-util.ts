@@ -87,6 +87,9 @@ class GotchaUtil {
 
         const confResponse: ResponsePromise = <ResponsePromise>http.get(confRoute).then(
             (confResponse) => {
+                if(!confResponse.body || confResponse.body.length === 0){
+                    return;
+                }
                 let conf = JSON.parse(confResponse.body);
                 let institutionCode = conf['primo-view']['institution']['institution-code'];
                 let isNPActive = conf['primo-view']['institution']['newspapers-search'];

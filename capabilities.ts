@@ -5,11 +5,12 @@ let q = require("q");
 
 export function getChromeCapabilities(): promise.Promise<any> {
     let deferred = q.defer();
+    const isHeadless = process.argv.includes('--headless');
 
     deferred.resolve({
         browserName: 'chrome',
         chromeOptions: {
-            args: ['--no-sandbox']
+            args: [isHeadless ? '--headless' : '--no-sandbox'],
         },
         shardTestFiles: true,
         maxInstances: 10

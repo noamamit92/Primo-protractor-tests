@@ -17,7 +17,7 @@ function getBrowser(): ProtractorBrowser {
 }
 describe('warmup', function () {
 
-    it('Should perform random searches', function () {
+    it('Should perform random searches', function (done) {
         let term;
         for (let i=0;i<5;++i){
             term = terms[Math.floor(Math.random() * terms.length)];
@@ -26,6 +26,7 @@ describe('warmup', function () {
             console.log('warming up with : '+ urlParams);
             getBrowser().get('/discovery/search?'+urlParams);
             getBrowser().sleep(20000);
+            done();
         }
 
 

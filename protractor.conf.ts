@@ -15,7 +15,10 @@ var htmlReporter = new HtmlScreenshotReporter({
 export const config: Config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     params: {
-        envArray:['https://sqa-ap01.alma.exlibrisgroup.com']
+        envArray:['https://sqa-ap01.alma.exlibrisgroup.com'],
+        vid: 'default',
+        tab: 'default',
+        scope: 'default'
     },
     specs: ['tests/*/*.spec.js'],
     framework: "jasmine",

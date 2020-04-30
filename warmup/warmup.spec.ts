@@ -21,9 +21,10 @@ describe('warmup', function () {
         let term;
         for (let i=0;i<5;++i){
             term = terms[Math.floor(Math.random() * terms.length)];
-            let urlParams = 'query=any,contains,' + encodeURI(term) + '&vid=01IOWA_INST:ResearchRepository&tab=Research&search_scope=Research';
+
+            let urlParams = 'query=any,contains,' + encodeURI(term) + '&vid='+getBrowser().params.vid+'&tab='+getBrowser().params.tab+'&search_scope='+getBrowser().params.scope;
             console.log('warming up with : '+ urlParams);
-            getBrowser().get('https://iro.uiowa.edu/discovery/search?'+urlParams);
+            getBrowser().get('/discovery/search?'+urlParams);
             getBrowser().waitForAngular();
         }
 
